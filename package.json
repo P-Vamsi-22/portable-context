@@ -1,0 +1,21 @@
+{
+  "name": "portable-context",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace context-core && npm run build --workspace portable-context-vscode && npm run build --workspace @portable-context/backend",
+    "dev": "npm run dev --workspace portable-context-vscode",
+    "dev:backend": "npm run dev --workspace @portable-context/backend",
+    "compile": "npm run compile --workspace portable-context-vscode",
+    "start": "npm run start --workspace @portable-context/backend"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/vscode": "^1.94.0",
+    "typescript": "^5.6.3"
+  }
+}

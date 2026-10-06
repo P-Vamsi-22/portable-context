@@ -1,0 +1,559 @@
+{
+  "projectId": "portable-context-demo",
+  "workspaceRoot": "c:\\Users\\vamsi\\OneDrive\\Desktop\\cline_fake",
+  "generatedAt": "2026-09-30T13:56:56.750Z",
+  "repository": {
+    "branch": null,
+    "status": "clean",
+    "recentCommits": []
+  },
+  "structure": {
+    "importantFiles": [
+      "cline/AGENTS.md",
+      "cline/biome.json",
+      "cline/CHANGELOG.md",
+      "cline/CODE_OF_CONDUCT.md",
+      "cline/CONTRIBUTING.md",
+      "cline/package.json",
+      "cline/README.md",
+      "cline/SECURITY.md",
+      "cline/vitest.config.ts",
+      "cline/sdk/AGENTS.md",
+      "cline/sdk/ARCHITECTURE.md",
+      "cline/sdk/biome.json",
+      "cline/sdk/CHANGELOG.md",
+      "cline/sdk/CONTRIBUTING.md",
+      "cline/sdk/DOC.md"
+    ],
+    "directories": [
+      "cline",
+      "cline/sdk",
+      "cline/sdk/scripts",
+      "cline/sdk/packages",
+      "cline/sdk/packages/ui",
+      "cline/sdk/packages/ui/tests",
+      "cline/sdk/packages/ui/stories",
+      "cline/sdk/packages/ui/scripts",
+      "cline/sdk/packages/ui/components",
+      "cline/sdk/packages/ui/components/agent-chat",
+      "cline/sdk/packages/ui/components/agent-chat/tool-summary",
+      "cline/sdk/packages/ui/.storybook",
+      "cline/sdk/packages/shared",
+      "cline/sdk/packages/shared/src"
+    ]
+  },
+  "documents": [
+    {
+      "path": "cline/AGENTS.md",
+      "summary": "File: AGENTS.md",
+      "content": "This is the **Cline** monorepo. Toolchain is **Bun 1.3.13** (package manager + task runner) with **Node >=22** as the runtime. Do not use npm/yarn/pnpm.\n\n## Cloud Agent Instructions\n\n### Cline CLI\n- Run from source: `bun run cli` (interactive: `bun run cli -i`; one-shot: append a prompt). This resolves to `apps/cli` and **auto-spawns the `@cline/cline-hub` daemon** — you do not start the hub separately.\n- Inspect local health with `bun run cli doctor`; `bun run cli version` prints the version.\n- An actual agent turn requires an **LLM provider credential**. With no credentials the default `cline` provider fails fast with an `Unauthorized` error and the interactive TUI shows a provider sign-in screen. Configure via `cline auth` or provider env vars (e.g. `ANTHROPIC_API_KEY`, `CLINE_API_KEY`,"
+    },
+    {
+      "path": "cline/biome.json",
+      "summary": "File: biome.json",
+      "content": "{\n    \"$schema\": \"https://biomejs.dev/schemas/2.4.5/schema.json\",\n    \"vcs\": {\n        \"enabled\": true,\n        \"clientKind\": \"git\",\n        \"useIgnoreFile\": true,\n        \"defaultBranch\": \"main\"\n    },\n    \"files\": {\n        \"ignoreUnknown\": true\n    },\n    \"formatter\": {\n        \"enabled\": true,\n        \"indentStyle\": \"tab\"\n    },\n    \"linter\": {\n        \"enabled\": true\n    },\n    \"overrides\": [\n        {\n            \"includes\": [\n                \"apps/vscode/**\"\n            ],\n            \"assist\": {\n                \"enabled\": true,\n                \"actions\": {\n                    \"source\": {\n                        \"organizeImports\": \"on\",\n                        \"useSortedAttributes\": \"on\"\n                    }\n                }\n            },\n            \"linter\": {\n                \""
+    },
+    {
+      "path": "cline/CHANGELOG.md",
+      "summary": "File: CHANGELOG.md",
+      "content": "# Changelog\n\n## [4.1.19]\n\n### Added\n\n- Images attached to a model that cannot read them are now flagged instead of silently discarded. Thumbnails get a warning badge and the composer explains that the images will be ignored, with a button to switch to an image-capable model. Previously the thumbnail looked normal and the image was replaced with a text placeholder just before the request, so there was no way to tell it had been dropped. Model info and the attachment picker also report image support accurately for models that declare text-only input without listing capabilities.\n\n### Changed\n\n- Cline's logo and icons have been refreshed throughout the extension, including the activity bar and panel icons.\n- The W&B Inference provider is now listed as CoreWeave, with its sign-up and API-key l"
+    },
+    {
+      "path": "cline/CODE_OF_CONDUCT.md",
+      "summary": "File: CODE_OF_CONDUCT.md",
+      "content": "# Contributor Covenant Code of Conduct\n\n## Our Pledge\n\nIn the interest of fostering an open and welcoming environment, we as\ncontributors and maintainers pledge to making participation in our project and\nour community a harassment-free experience for everyone, regardless of age, body\nsize, disability, ethnicity, sex characteristics, gender identity and expression,\nlevel of experience, education, socio-economic status, nationality, personal\nappearance, race, religion, or sexual identity and orientation.\n\n## Our Standards\n\nExamples of behavior that contributes to creating a positive environment\ninclude:\n\n-   Using welcoming and inclusive language\n-   Being respectful of differing viewpoints and experiences\n-   Gracefully accepting constructive criticism\n-   Focusing on what is best for the c"
+    },
+    {
+      "path": "cline/CONTRIBUTING.md",
+      "summary": "File: CONTRIBUTING.md",
+      "content": "# Contributing to Cline\n\nWe're thrilled you're interested in contributing to Cline. Whether you're fixing a bug, adding a feature, or improving our docs, every contribution makes Cline smarter! To keep our community vibrant and welcoming, all members must adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).\n\n## Reporting Bugs or Issues\n\nBug reports help make Cline better for everyone! Before creating a new issue, please [search existing ones](https://github.com/cline/cline/issues) to avoid duplicates. When you're ready to report a bug, head over to our [issues page](https://github.com/cline/cline/issues/new/choose) where you'll find a template to help you with filling out the relevant information.\n\n<blockquote class='warning-note'>\n     🔐 <b>Important:</b> If you discover a security vulne"
+    },
+    {
+      "path": "cline/package.json",
+      "summary": "File: package.json",
+      "content": "{\n    \"name\": \"@cline/packages\",\n    \"private\": true,\n    \"workspaces\": [\n        \"sdk/packages/*\",\n        \"apps/*\",\n        \"apps/vscode/webview-ui\",\n        \"apps/vscode/testing-platform\",\n        \"apps/cline-hub/src/webview\",\n        \"apps/examples/*\",\n        \"apps/examples/vscode/src/webview\",\n        \"sdk/examples\",\n        \"sdk/examples/plugins/*\"\n    ],\n    \"scripts\": {\n        \"prepare\": \"husky\",\n        \"build\": \"bun run clean && bun install && bun run build:sdk && bun -F @cline/cli build\",\n        \"build:sdk\": \"bun --production -F './sdk/packages/*' build\",\n        \"build:apps\": \"bun -F './apps/**' --production build\",\n        \"build:models\": \"bun -F @cline/llms generate:models && bun format --write\",\n        \"dev\": \"bun --conditions=development run build:sdk && bun run cli && "
+    },
+    {
+      "path": "cline/README.md",
+      "summary": "File: README.md",
+      "content": "<p align=\"center\">\n  <img src=\"assets/icons/icon.png\" width=\"80\" alt=\"Cline\" />\n</p>\n\n<h1 align=\"center\">Cline</h1>\n\n<p align=\"center\">\nThe open source coding agent in your IDE, terminal, & desktop.\n</p>\n\n<div align=\"center\">\n\n<div align=\"center\">\n<table>\n<tbody>\n<td align=\"center\">\n<a href=\"https://docs.cline.bot\" target=\"_blank\"><strong>Docs</strong></a>\n</td>\n<td align=\"center\">\n<a href=\"https://discord.gg/cline\" target=\"_blank\"><strong>Discord</strong></a>\n</td>\n<td align=\"center\">\n<a href=\"https://www.reddit.com/r/cline/\" target=\"_blank\"><strong>r/cline</strong></a>\n</td>\n<td align=\"center\">\n<a href=\"https://github.com/cline/cline/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop\" target=\"_blank\"><strong>Feature Requests</stro"
+    },
+    {
+      "path": "cline/SECURITY.md",
+      "summary": "File: SECURITY.md",
+      "content": "# Security Policy\n\n## Supported Versions\n\nWe actively patch only the most recent minor release of Cline. Older versions receive fixes at our discretion.\n\n## Reporting a Vulnerability\n\nWe appreciate your efforts to responsibly disclose your findings and will make every effort to acknowledge your contributions.\n\nTo report a security issue, please submit your report through our [Bugcrowd Vulnerability Disclosure Program](https://bugcrowd.com/engagements/clinebot-vdp-ess). Bugcrowd will manage communication and triage on our behalf.\n\nWhen reporting, please include:\n\n- A short summary of the issue\n- Steps to reproduce or a proof of concept\n- Any logs, stack traces, or screenshots that might help us understand the problem\n\nPlease keep the details private until a resolution has been reached.\n\n## "
+    },
+    {
+      "path": "cline/vitest.config.ts",
+      "summary": "File: vitest.config.ts",
+      "content": "import { defineConfig } from \"vitest/config\";\n\nexport default defineConfig({\n\ttest: {\n\t\tprojects: [\n\t\t\t\"sdk/packages/agents/vitest.config.ts\",\n\t\t\t\"sdk/packages/core/vitest.config.ts\",\n\t\t\t\"sdk/packages/llms/vitest.config.ts\",\n\t\t\t\"sdk/packages/shared/vitest.config.ts\",\n\t\t\t\"sdk/packages/ui/vitest.config.ts\",\n\t\t\t\"apps/cli/vitest.config.ts\",\n\t\t\t\"apps/examples/vscode/vitest.config.ts\",\n\t\t],\n\t},\n});\n"
+    },
+    {
+      "path": "cline/sdk/AGENTS.md",
+      "summary": "File: AGENTS.md",
+      "content": "---\ndescription: Development reference for the Cline SDK workspace.\nglobs: \"*.ts,*.tsx,*.js,*.jsx,*.json,*.md\"\nalwaysApply: true\n---\n\n# Cline SDK — Development Reference\n\nQuick-reference for active development. For onboarding, workspace setup, publishing, and detailed workflow see [CONTRIBUTING.md](./CONTRIBUTING.md). For architecture and runtime flows see [ARCHITECTURE.md](./ARCHITECTURE.md). For API details see [DOC.md](./DOC.md).\n\n## Repository Scope\n\nThis file applies to the SDK workspace rooted at this directory (`sdk/`). In this repo, \"root\" means the SDK workspace root unless explicitly stated otherwise. Ignore the legacy repository root for SDK development except for Git operations or repo-wide searches that are explicitly needed.\n\nRun SDK commands from `sdk/`, not from the legacy "
+    },
+    {
+      "path": "cline/sdk/ARCHITECTURE.md",
+      "summary": "File: ARCHITECTURE.md",
+      "content": "# Cline SDK Architecture\n\nThis document is the architecture source of truth for the Cline SDK repository. It describes how the system is organized, how components interact, and the design principles that guide development decisions.\n\n**Who should read this?**\n- SDK contributors working across multiple packages\n- Developers building integrations or host applications using `@cline/core`\n- Plugin authors understanding the runtime and extension systems\n\n**What this covers:**\n- Package boundaries and responsibilities\n- Dependency direction and layering rules\n- Runtime flows (local, hub-backed, remote-config managed)\n- Design seams (repeated patterns instead of one-off integrations)\n- Architectural constraints and why they exist\n\n**What this is NOT:**\n- An onboarding guide for new contributors ("
+    },
+    {
+      "path": "cline/sdk/biome.json",
+      "summary": "File: biome.json",
+      "content": "{\n\t\"$schema\": \"https://biomejs.dev/schemas/2.4.5/schema.json\",\n\t\"root\": false,\n\t\"vcs\": {\n\t\t\"enabled\": true,\n\t\t\"clientKind\": \"git\",\n\t\t\"useIgnoreFile\": true\n\t},\n\t\"files\": {\n\t\t\"ignoreUnknown\": true\n\t},\n\t\"formatter\": {\n\t\t\"enabled\": true,\n\t\t\"indentStyle\": \"tab\"\n\t},\n\t\"linter\": {\n\t\t\"enabled\": true,\n\t\t\"rules\": {\n\t\t\t\"recommended\": true,\n\t\t\t\"suspicious\": {\n\t\t\t\t\"noConfusingVoidType\": \"info\",\n\t\t\t\t\"noExplicitAny\": \"info\",\n\t\t\t\t\"noAssignInExpressions\": \"info\",\n\t\t\t\t\"noArrayIndexKey\": \"info\",\n\t\t\t\t\"noUnknownAtRules\": {\n\t\t\t\t\t\"level\": \"info\",\n\t\t\t\t\t\"options\": {\n\t\t\t\t\t\t\"ignore\": [\n\t\t\t\t\t\t\t\"tailwind\",\n\t\t\t\t\t\t\t\"layer\",\n\t\t\t\t\t\t\t\"apply\",\n\t\t\t\t\t\t\t\"responsive\",\n\t\t\t\t\t\t\t\"screen\",\n\t\t\t\t\t\t\t\"variants\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"style\": {\n\t\t\t\t\"noNonNullAssertion\": \"info\",\n\t\t\t\t\"noRestrictedImports\": {\n\t\t\t\t\t\"level\": \"error\",\n\t"
+    },
+    {
+      "path": "cline/sdk/CHANGELOG.md",
+      "summary": "File: CHANGELOG.md",
+      "content": "# Cline SDK Changelog\n\n## 0.0.83\n\n- On Windows, a program planted in the workspace can no longer run in place of the real one. libuv resolves a bare program name (`rg`, `git`, `powershell`, anything the model names) by searching the child's working directory before PATH, and Cline spawns those with the user's repo as cwd, so opening a repo containing an `rg.exe` executed it during file indexing, before any approval. New `disableCurrentDirectoryExecutableSearch()` in `@cline/shared` sets Windows' documented `NoDefaultCurrentDirectoryInExePath` opt-out, which libuv, Bun 1.4+, cmd.exe and the C runtime all honor, so one call at process startup covers every spawn and every child. Embedders hosting `@cline/core` in their own Windows process should call it before anything spawns; the Cline CLI, "
+    },
+    {
+      "path": "cline/sdk/CONTRIBUTING.md",
+      "summary": "File: CONTRIBUTING.md",
+      "content": "# Contributing to the Cline SDK\n\nThis document covers onboarding, development workflow, and publishing. For package boundaries and change routing during development, see [AGENTS.md](./AGENTS.md). For architecture and runtime flows, see [ARCHITECTURE.md](./ARCHITECTURE.md).\n\nThis repo is a WIP framework for building and orchestrating AI agents. Full refactors are acceptable when they improve the architecture and all call sites are updated.\n\n## Workspace Overview\n\n### Published SDK Packages\n\n| Package | Owns |\n|---------|------|\n| `@cline/shared` | Contracts, schemas, path helpers, hook engine, extension registry |\n| `@cline/llms` | Provider settings, model catalogs, manifests, handler creation |\n| `@cline/agents` | Stateless agent loop, tool orchestration, hook/extension runtime |\n| `@cline"
+    },
+    {
+      "path": "cline/sdk/DOC.md",
+      "summary": "File: DOC.md",
+      "content": "\n## SSH remote environments\n\n`RemoteEnvironmentService` (exported by `@cline/core` and `@cline/sdk`) owns SSH\nprofiles, connection testing, helper installation, authenticated loopback tunnels,\nremote commands, status changes, and cleanup. It runs in the client's Node host;\nbrowser clients expose this API through their host transport. No desktop code is\nrequired. OpenSSH config aliases, identity files, and ssh-agent authentication are\nsupported. Connections use batch mode and require an already-trusted host key in\nOpenSSH known_hosts (or `knownHostsPath`). Before first use, verify the server\nfingerprint through a trusted channel and enroll it using your SSH client. Unknown\nor changed keys are rejected before inspection, upload, or execution.\n\n```ts\nimport { ClineCore, RemoteEnvironmentServi"
+    },
+    {
+      "path": "cline/sdk/README.md",
+      "summary": "File: README.md",
+      "content": "<p align=\"center\">\n  <img src=\"https://github.com/user-attachments/assets/a05da977-2cb7-498a-88ca-20f24c9562e1\" width=\"100%\" />\n</p>\n\n<div align=\"center\">\n<table>\n<tbody>\n<td align=\"center\">\n<a href=\"https://discord.gg/cline\" target=\"_blank\"><strong>Discord</strong></a>\n</td>\n<td align=\"center\">\n<a href=\"https://www.reddit.com/r/cline/\" target=\"_blank\"><strong>r/cline</strong></a>\n</td>\n<td align=\"center\">\n<a href=\"https://github.com/cline/cline/discussions/categories/feature-requests?discussions_q=is%3Aopen+category%3A%22Feature+Requests%22+sort%3Atop\" target=\"_blank\"><strong>Feature Requests</strong></a>\n</td>\n</tbody>\n</table>\n</div>\n\nThe Cline SDK is a TypeScript framework for building AI agents that can edit files, run shell commands, browse the web, call APIs, and use any custom tool"
+    },
+    {
+      "path": "cline/sdk/tsconfig.json",
+      "summary": "File: tsconfig.json",
+      "content": "{\n\t\"compilerOptions\": {\n\t\t\"target\": \"ES2022\",\n\t\t\"module\": \"ESNext\",\n\t\t\"moduleResolution\": \"bundler\",\n\t\t\"lib\": [\"ES2022\"],\n\t\t\"strict\": true,\n\t\t\"esModuleInterop\": true,\n\t\t\"skipLibCheck\": true,\n\t\t\"forceConsistentCasingInFileNames\": true,\n\t\t\"resolveJsonModule\": true,\n\t\t\"paths\": {\n\t\t\t\"@cline/agents\": [\"./packages/agents/src/index.ts\"],\n\t\t\t\"@cline/agents/*\": [\n\t\t\t\t\"./packages/agents/src/*\",\n\t\t\t\t\"./packages/agents/src/*/index.ts\"\n\t\t\t],\n\t\t\t\"@cline/cline-hub\": [\"./apps/cline-hub/src/server.ts\"],\n\t\t\t\"@cline/core\": [\"./packages/core/src/index.ts\"],\n\t\t\t\"@cline/core/hub\": [\"./packages/core/src/hub/index.ts\"],\n\t\t\t\"@cline/core/hub/daemon-entry\": [\n\t\t\t\t\"./packages/core/src/hub/daemon/entry.ts\"\n\t\t\t],\n\t\t\t\"@cline/core/telemetry\": [\n\t\t\t\t\"./packages/core/src/services/telemetry/index.ts\"\n\t\t\t],\n\t\t\t\"@cline/core/*"
+    },
+    {
+      "path": "cline/sdk/scripts/check-publish.ts",
+      "summary": "File: check-publish.ts",
+      "content": "#!/usr/bin/env bun\n\nimport { mkdtemp, readdir, readFile, rm, writeFile } from \"node:fs/promises\";\nimport { tmpdir } from \"node:os\";\nimport { join } from \"node:path\";\n\ntype PackageInfo = {\n\tname: string;\n\tdir: string;\n\tworkspace: string;\n};\n\ntype PackedManifest = {\n\tname?: string;\n\tversion?: string;\n\tdependencies?: Record<string, string>;\n\texports?: unknown;\n};\n\nconst root = join(import.meta.dir, \"..\");\nconst packagesDir = join(root, \"packages\");\n\nasync function runCommandOrThrow(\n\tcmd: string[],\n\toptions: {\n\t\tcwd: string;\n\t\tenv?: Record<string, string | undefined>;\n\t\tstdout?: \"inherit\" | \"pipe\";\n\t\tstderr?: \"inherit\" | \"pipe\";\n\t},\n): Promise<string> {\n\tconst proc = Bun.spawn(cmd, {\n\t\tcwd: options.cwd,\n\t\tenv: options.env,\n\t\tstdout: options.stdout ?? \"inherit\",\n\t\tstderr: options.stderr ?? \"in"
+    },
+    {
+      "path": "cline/sdk/scripts/ci-node-smoke.ts",
+      "summary": "File: ci-node-smoke.ts",
+      "content": "#!/usr/bin/env bun\n\nimport { mkdtemp, readdir, readFile, rm, writeFile } from \"node:fs/promises\";\nimport { tmpdir } from \"node:os\";\nimport { join } from \"node:path\";\n\nconst root = join(import.meta.dir, \"..\");\nconst npmCommand = process.platform === \"win32\" ? \"npm.cmd\" : \"npm\";\n\nasync function runCommand(\n\tcmd: string[],\n\toptions: {\n\t\tcwd: string;\n\t\tenv?: Record<string, string | undefined>;\n\t\tcaptureStdout?: boolean;\n\t\ttimeoutMs?: number;\n\t},\n): Promise<string> {\n\tconst captureStdout = options.captureStdout === true;\n\tlet timedOut = false;\n\tconst proc = Bun.spawn(cmd, {\n\t\tcwd: options.cwd,\n\t\tenv: {\n\t\t\t...process.env,\n\t\t\t...options.env,\n\t\t},\n\t\tstdout: captureStdout ? \"pipe\" : \"inherit\",\n\t\tstderr: \"inherit\",\n\t});\n\tconst stdoutPromise =\n\t\tcaptureStdout && proc.stdout\n\t\t\t? new Response(proc.std"
+    },
+    {
+      "path": "cline/sdk/scripts/clean.ts",
+      "summary": "File: clean.ts",
+      "content": "#!/usr/bin/env bun\n\n/**\n * Cross-platform `clean` for the SDK monorepo.\n *\n * Deletes `dist` and `node_modules` from every workspace listed in the root\n * package.json, plus the repo root itself. Runs serially to avoid races between\n * sibling workspaces whose `node_modules` are wired together via symlinks /\n * junctions on Windows.\n *\n */\n\nimport { readFile, rm, stat } from \"node:fs/promises\";\nimport path from \"node:path\";\nimport { Glob } from \"bun\";\n\ntype RootPackageJson = {\n\tworkspaces?: string[];\n};\n\nconst TARGETS = [\"dist\", \"node_modules\"] as const;\n\nconst root = path.join(import.meta.dir, \"..\", \"..\");\n\nasync function readWorkspaceGlobs(): Promise<string[]> {\n\tconst raw = await readFile(path.join(root, \"package.json\"), \"utf8\");\n\tconst pkg = JSON.parse(raw) as RootPackageJson;\n\treturn "
+    },
+    {
+      "path": "cline/sdk/scripts/release.ts",
+      "summary": "File: release.ts",
+      "content": "#!/usr/bin/env bun\n\n/** biome-ignore-all lint/style/noNonNullAssertion: expected non-null assertions */\n\n/**\n * Unified release script for SDK packages and CLI.\n *\n * Usage:\n *   bun release sdk                          # auto-increment patch, publish SDK\n *   bun release sdk 0.1.0                    # publish SDK at exact version\n *   bun release sdk 0.1.0 --tag next         # publish SDK with npm tag\n *   bun release cli                          # publish CLI from the current tagged commit\n *   bun release cli 0.1.0                    # require apps/cli/package.json to match\n *   bun release cli --dry-run                # preview without side effects\n *   bun release sdk --skip-tests             # skip the test suite\n *   bun release sdk --skip-git-tags          # skip git tag creation\n "
+    },
+    {
+      "path": "cline/sdk/scripts/version.ts",
+      "summary": "File: version.ts",
+      "content": "#!/usr/bin/env bun\n\nimport { readdir, readFile, rm, writeFile } from \"node:fs/promises\";\nimport { join } from \"node:path\";\nimport { parseArgs } from \"node:util\";\n\nconst { values, positionals } = parseArgs({\n\targs: Bun.argv.slice(2),\n\toptions: {\n\t\tdry: { type: \"boolean\", default: false },\n\t},\n\tallowPositionals: true,\n\tstrict: true,\n});\n\nlet version = positionals[0];\n\nfunction incrementPatchVersion(input: string): string {\n\tconst match = input.match(/^(\\d+)\\.(\\d+)\\.(\\d+)(-[\\w.]+)?$/);\n\tif (!match) {\n\t\tthrow new Error(`Invalid semver version: ${input}`);\n\t}\n\n\tconst [, major, minor, patch] = match;\n\treturn `${major}.${minor}.${Number(patch) + 1}`;\n}\n\nconst root = join(import.meta.dir, \"..\", \"..\");\nconst sdkRoot = join(import.meta.dir, \"..\");\nconst packagesDir = join(sdkRoot, \"packages\");\nconst"
+    },
+    {
+      "path": "cline/sdk/packages/README.md",
+      "summary": "File: README.md",
+      "content": "# Packages Overview\n\nThis directory is the single documentation source for package-level responsibilities.\n\n- High-level package roles: this file (`packages/README.md`)\n- Package interaction and runtime flows: [`ARCHITECTURE.md`](./ARCHITECTURE.md)\n\n## Package Responsibilities\n\n| Package | Primary responsibility | Typical consumers | Internal deps |\n| --- | --- | --- | --- |\n| `@cline/shared` | Cross-package shared primitives (path resolution, session common types, indexing helpers) | `@cline/agents`, `@cline/core`, apps | None |\n| `@cline/llms` | Model catalog + provider settings schema + handler creation SDK | `@cline/agents`, `@cline/core`, apps | None |\n| `@cline/agents` | Stateless agent runtime loop (tools, hooks, extensions, teams, streaming) | `@cline/core`, apps | `@cline/llms`, `"
+    },
+    {
+      "path": "cline/sdk/packages/tsconfig.base.json",
+      "summary": "File: tsconfig.base.json",
+      "content": "{\n\t\"compilerOptions\": {\n\t\t\"target\": \"ES2022\",\n\t\t\"module\": \"ESNext\",\n\t\t\"moduleResolution\": \"bundler\",\n\t\t\"lib\": [\"ES2022\"],\n\t\t\"strict\": true,\n\t\t\"esModuleInterop\": true,\n\t\t\"skipLibCheck\": true,\n\t\t\"forceConsistentCasingInFileNames\": true,\n\t\t\"declaration\": true,\n\t\t\"declarationMap\": true,\n\t\t\"sourceMap\": true,\n\t\t\"resolveJsonModule\": true,\n\t\t\"isolatedModules\": true,\n\t\t\"noUnusedLocals\": true,\n\t\t\"noUnusedParameters\": true,\n\t\t\"noImplicitReturns\": true,\n\t\t\"noFallthroughCasesInSwitch\": true,\n\t\t\"types\": [\"node\"]\n\t}\n}\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/ADOPTION.md",
+      "summary": "File: ADOPTION.md",
+      "content": "# `@cline/ui` adoption primer\n\nThis guide is for Cline engineering teams that want a web application to share\nthe Cline visual language and agent-chat presentation without copying desktop\nstyles or adopting desktop product structure.\n\n## The short version\n\n`@cline/ui` has two opt-in layers:\n\n1. A shared CSS theme built around standard shadcn/Tailwind semantic names.\n2. Reusable React presentation primitives for common agent-chat interfaces.\n\nThe theme provides:\n\n- Cline-owned Slate, Violet, Ruby, Green, Amber, and Sky solid/alpha palettes\n- Light and dark semantic colors\n- Standard shadcn token names\n- Typography families, sizes, weights, line heights, and letter spacing\n- Borders, radii, cards, navigation, sidebar, and chart colors\n- Selection and scrollbar values\n- A small brand palette "
+    },
+    {
+      "path": "cline/sdk/packages/ui/package.json",
+      "summary": "File: package.json",
+      "content": "{\n\t\"name\": \"@cline/ui\",\n\t\"version\": \"0.2.0-next.10\",\n\t\"description\": \"Shared Cline web theme and reusable agent UI components\",\n\t\"repository\": {\n\t\t\"type\": \"git\",\n\t\t\"url\": \"https://github.com/cline/cline\",\n\t\t\"directory\": \"sdk/packages/ui\"\n\t},\n\t\"private\": false,\n\t\"internal\": true,\n\t\"publishConfig\": {\n\t\t\"access\": \"public\"\n\t},\n\t\"type\": \"module\",\n\t\"exports\": {\n\t\t\".\": {\n\t\t\t\"types\": \"./dist/components/index.d.ts\",\n\t\t\t\"import\": \"./dist/components/index.js\"\n\t\t},\n\t\t\"./components.css\": \"./components.css\",\n\t\t\"./components/agent-chat\": {\n\t\t\t\"types\": \"./dist/components/agent-chat/index.d.ts\",\n\t\t\t\"import\": \"./dist/components/agent-chat/index.js\"\n\t\t},\n\t\t\"./components/agent-chat/tool-summary\": {\n\t\t\t\"types\": \"./dist/components/agent-chat/tool-summary/index.d.ts\",\n\t\t\t\"import\": \"./dist/components/agent-chat/t"
+    },
+    {
+      "path": "cline/sdk/packages/ui/README.md",
+      "summary": "File: README.md",
+      "content": "# `@cline/ui`\n\nShared visual foundations and reusable React presentation primitives for Cline\nweb products. The package lets teams adopt the same semantic theme and agent\nchat language without adopting another product's routes, state, or runtime.\n\nThe package is configured for public npm releases on its own version and\nrelease cycle. Its API is still pre-stable, so consumers should pin an exact\nversion and review compatibility notes when updating. Check availability with\n`npm view @cline/ui version`; an `E404` means the first release is still pending.\n\nSee the [adoption primer](./ADOPTION.md) for complete setup instructions,\ncomponent examples, boundaries, and release status.\n\n## Install\n\nAfter the initial release is available:\n\n```bash\nbun add --exact @cline/ui\n```\n\nUse `@cline/ui@next` o"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tsconfig.build.json",
+      "summary": "File: tsconfig.build.json",
+      "content": "{\n\t\"extends\": \"../tsconfig.base.json\",\n\t\"compilerOptions\": {\n\t\t\"declaration\": true,\n\t\t\"declarationMap\": true,\n\t\t\"jsx\": \"react-jsx\",\n\t\t\"lib\": [\"ES2022\", \"DOM\", \"DOM.Iterable\"],\n\t\t\"noEmit\": false,\n\t\t\"outDir\": \"dist/components\",\n\t\t\"rootDir\": \"components\",\n\t\t\"types\": [\"react\", \"react-dom\"]\n\t},\n\t\"include\": [\"components/**/*.ts\", \"components/**/*.tsx\"],\n\t\"exclude\": [\"components/**/*.stories.ts\", \"components/**/*.stories.tsx\"]\n}\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tsconfig.json",
+      "summary": "File: tsconfig.json",
+      "content": "{\n\t\"extends\": \"../tsconfig.base.json\",\n\t\"compilerOptions\": {\n\t\t\"jsx\": \"react-jsx\",\n\t\t\"lib\": [\"ES2022\", \"DOM\", \"DOM.Iterable\"],\n\t\t\"noEmit\": true,\n\t\t\"types\": [\"bun\", \"node\", \"react\", \"react-dom\"]\n\t},\n\t\"include\": [\n\t\t\".storybook/**/*.ts\",\n\t\t\".storybook/**/*.tsx\",\n\t\t\"components/**/*.ts\",\n\t\t\"components/**/*.tsx\",\n\t\t\"scripts/**/*.ts\",\n\t\t\"stories/**/*.ts\",\n\t\t\"stories/**/*.tsx\",\n\t\t\"tests/**/*.ts\",\n\t\t\"tests/**/*.tsx\"\n\t]\n}\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/vitest.config.ts",
+      "summary": "File: vitest.config.ts",
+      "content": "import { fileURLToPath } from \"node:url\";\nimport { defineConfig } from \"vitest/config\";\n\nexport default defineConfig({\n\troot: fileURLToPath(new URL(\".\", import.meta.url)),\n\ttest: {\n\t\tenvironment: \"node\",\n\t\tinclude: [\"tests/**/*.test.{ts,tsx}\"],\n\t},\n});\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/agent-approval-card.test.tsx",
+      "summary": "File: agent-approval-card.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { AgentApprovalCard } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n\tvi.restoreAllMocks();\n});\n\ndescribe(\"AgentApprovalCard\", () => {\n\tit(\"submits either controlled decision\", async () => {\n\t\tconst onApprove = vi.fn();\n\t\tconst onReject = vi.fn();\n\t\tawait act(async () =>\n\t\t\troot.re"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/agent-ask-question.test.tsx",
+      "summary": "File: agent-ask-question.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { AgentAskQuestion } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n\tvi.restoreAllMocks();\n});\n\ndescribe(\"AgentAskQuestion\", () => {\n\tit(\"reports the selected answer\", async () => {\n\t\tconst onAnswer = vi.fn();\n\t\tawait act(async () =>\n\t\t\troot.render(\n\t\t\t\t<AgentAskQuestion\n\t\t\t\t\titems"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/agent-aurora.test.tsx",
+      "summary": "File: agent-aurora.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { readFileSync } from \"node:fs\";\nimport { join } from \"node:path\";\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it } from \"vitest\";\nimport { AgentAurora } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n});\n\ndescribe(\"AgentAurora\", () => {\n\tit(\"renders the deterministic decorative field\", async () => {\n\t\tawait act(async () => root.render(<AgentAurora"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/agent-chat.test.tsx",
+      "summary": "File: agent-chat.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport {\n\tConversation,\n\tConversationContent,\n\tConversationScrollButton,\n\tConversationViewport,\n\tformatThoughtLabel,\n\tformatWorkActivityLabel,\n\tMessage,\n\tMessageContent,\n\tReasoning,\n\tReasoningContent,\n\tReasoningTrigger,\n\tThinkingBlock,\n\tToolActivity,\n\tToolActivityContent,\n\tToolActivityTrigger,\n\tWorkActivity,\n\tWorkActivityContent,\n\tWorkActivityTrigger,\n} from \"../components/agent-chat\";\nimport { getInertAttributeValue } from \"../components/agent-chat/disclosure\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tHTMLEleme"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/agent-hero-heading.test.tsx",
+      "summary": "File: agent-hero-heading.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { AgentHeroHeading } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n\tvi.useRealTimers();\n\tvi.restoreAllMocks();\n});\n\nasync function renderHeading() {\n\tawait act(async () => root.render(<AgentHeroHeading />));\n}\n\ndescribe(\"AgentHeroHeading\", () => {\n\tit(\"renders a stable accessible "
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/agent-prompt-queue.test.tsx",
+      "summary": "File: agent-prompt-queue.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { AgentPromptQueue } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n\tvi.restoreAllMocks();\n});\n\ndescribe(\"AgentPromptQueue\", () => {\n\tit(\"expands queued prompts and submits host actions\", async () => {\n\t\tconst onRemove = vi.fn();\n\t\tconst onSteer = vi.fn();\n\t\tawait act(async () =>\n\t"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/agent-quick-actions.test.tsx",
+      "summary": "File: agent-quick-actions.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport {\n\ttype AgentQuickAction,\n\tAgentQuickActions,\n} from \"../components/index.js\";\n\nconst action: AgentQuickAction = {\n\tdescription: \"Review the current changes and call out anything risky.\",\n\tid: \"review-changes\",\n\tlabel: \"Review changes\",\n\tvalue: \"Review the current changes and call out anything risky.\",\n};\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () "
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/agent-welcome-hero.test.tsx",
+      "summary": "File: agent-welcome-hero.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport {\n\tAgentWelcomeHero,\n\ttype AgentWelcomeHeroProps,\n} from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\nlet animationFrames: FrameRequestCallback[];\nlet reducedMotion = false;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tanimationFrames = [];\n\tvi.stubGlobal(\"requestAnimationFrame\", (callback: FrameRequestCallback) => {\n\t\tanimationFrames.push(callback);\n\t\treturn animationFrames.length;\n\t});\n\tvi.stubGlobal(\"cancelAnimationFrame\", vi.fn());\n\tvi.stubGlobal(\n\t\t\"matchMedia\",\n\t\tvi.fn(() => ({\n\t\t\tmatches: reducedMotion,\n\t\t\taddEventListen"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/attachment-drop-zone.test.tsx",
+      "summary": "File: attachment-drop-zone.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act, type ReactNode } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { AttachmentDropZone } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n});\n\nasync function render(node: ReactNode) {\n\tawait act(async () => root.render(node));\n}\n\nfunction dispatchDrag(\n\ttarget: Element,\n\ttype: string,\n\tfiles: File[] = [],\n\ttypes: string[] = [\"Files\""
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/badge.test.tsx",
+      "summary": "File: badge.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act, type ReactNode } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it } from \"vitest\";\nimport { Badge } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n});\n\nasync function render(node: ReactNode) {\n\tawait act(async () => root.render(node));\n}\n\ndescribe(\"Badge\", () => {\n\tit(\"renders its content with the default styling\", async () => {\n\t\tawait render(<Badge>Require"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/button.test.tsx",
+      "summary": "File: button.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act, type ReactNode } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { Button, IconButton } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n});\n\nasync function render(node: ReactNode) {\n\tawait act(async () => root.render(node));\n}\n\ndescribe(\"Button\", () => {\n\tit(\"defaults to a non-submitting accent button\", async () => {\n\t\tawait rende"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/generated-media.test.tsx",
+      "summary": "File: generated-media.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport type { GeneratedMedia } from \"@cline/shared/browser\";\nimport { act, type ReactNode } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { GeneratedMediaContent } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\nconst createObjectURL = vi.fn(() => \"blob:cline-generated-media\");\nconst revokeObjectURL = vi.fn();\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tObject.defineProperties(URL, {\n\t\tcreateObjectURL: { configurable: true, value: createObjectURL },\n\t\trevokeObjectURL: { configurable: true, value: revokeObjectURL },\n\t});\n\tcreateObjectURL.mockClear();\n\trevokeObjectURL.mockClear();\n\tcont"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/markdown-code-block.test.tsx",
+      "summary": "File: markdown-code-block.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { readFileSync } from \"node:fs\";\nimport { join } from \"node:path\";\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { Streamdown } from \"streamdown\";\nimport { afterEach, beforeEach, describe, expect, test, vi } from \"vitest\";\nimport {\n\tagentMarkdownControls,\n\tmarkdownCodeHighlighter,\n} from \"../components/markdown\";\n\n// Vitest rewrites import.meta.url under jsdom, so resolve from the package\n// root (the vitest config pins `root` to this package).\nconst markdownCss = readFileSync(\n\tjoin(process.cwd(), \"components/markdown.css\"),\n\t\"utf8\",\n);\n\nlet container: HTMLDivElement;\nlet root: Root;\nlet style: HTMLStyleElement;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tstyle = d"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/markdown-highlighter.test.ts",
+      "summary": "File: markdown-highlighter.test.ts",
+      "content": "import { describe, expect, test } from \"vitest\";\nimport {\n\tmarkdownCodeHighlighter,\n\tSUPPORTED_MARKDOWN_LANGUAGES,\n} from \"../components/markdown\";\n\nfunction highlight(code: string, language: \"typescript\") {\n\treturn new Promise<\n\t\tNonNullable<ReturnType<typeof markdownCodeHighlighter.highlight>>\n\t>((resolve) => {\n\t\tconst immediate = markdownCodeHighlighter.highlight(\n\t\t\t{ code, language, themes: [\"github-light\", \"github-dark\"] },\n\t\t\tresolve,\n\t\t);\n\t\tif (immediate) resolve(immediate);\n\t});\n}\n\ndescribe(\"markdownCodeHighlighter\", () => {\n\ttest(\"keeps the syntax bundle to the shared supported language set\", () => {\n\t\texpect(SUPPORTED_MARKDOWN_LANGUAGES).toEqual([\n\t\t\t\"bash\",\n\t\t\t\"css\",\n\t\t\t\"diff\",\n\t\t\t\"html\",\n\t\t\t\"javascript\",\n\t\t\t\"json\",\n\t\t\t\"jsonc\",\n\t\t\t\"jsx\",\n\t\t\t\"markdown\",\n\t\t\t\"python\",\n\t\t\t\"shellscr"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/package.test.ts",
+      "summary": "File: package.test.ts",
+      "content": "import { readFileSync } from \"node:fs\";\nimport { fileURLToPath } from \"node:url\";\nimport { describe, expect, it } from \"vitest\";\n\nconst manifestPath = fileURLToPath(new URL(\"../package.json\", import.meta.url));\n\ndescribe(\"@cline/ui package\", () => {\n\tit(\"is configured for standalone public npm releases\", () => {\n\t\tconst manifest = JSON.parse(readFileSync(manifestPath, \"utf8\")) as {\n\t\t\tinternal?: boolean;\n\t\t\tlicense?: string;\n\t\t\tprivate?: boolean;\n\t\t\tpublishConfig?: { access?: string };\n\t\t\tversion?: string;\n\t\t};\n\n\t\texpect(manifest.private).toBe(false);\n\t\texpect(manifest.internal).toBe(true);\n\t\texpect(manifest.publishConfig?.access).toBe(\"public\");\n\t\texpect(manifest.license).toBe(\"Apache-2.0\");\n\t\texpect(manifest.version).toMatch(/^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?$/);\n\t\texpect(manifest.versi"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/search-combobox.test.tsx",
+      "summary": "File: search-combobox.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { SearchCombobox } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n\tvi.restoreAllMocks();\n});\n\nconst options = [\n\t{ label: \"cline/cline\", value: \"cline\" },\n\t{\n\t\tdescription: \"Cloud dashboard\",\n\t\tlabel: \"cline/core-platform\",\n\t\tvalue: \"core-platform\",\n\t},\n];\n\ndescribe(\"SearchCombobox"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/session-status.test.tsx",
+      "summary": "File: session-status.test.tsx",
+      "content": "import { renderToStaticMarkup } from \"react-dom/server\";\nimport { describe, expect, it } from \"vitest\";\nimport { SessionStatus } from \"../components/index.js\";\n\ndescribe(\"SessionStatus\", () => {\n\tit(\"uses hidden content as dot-only status text without duplicating it\", () => {\n\t\tconst markup = renderToStaticMarkup(\n\t\t\t<SessionStatus label=\"Running\" showLabel={false} tone=\"running\" />,\n\t\t);\n\n\t\texpect(markup).toContain(\"<output\");\n\t\texpect(markup).not.toContain(\"aria-label\");\n\t\texpect(markup).toContain(\"cline-ui-session-status--running\");\n\t\texpect(markup).toContain(\"cline-ui-sr-only\");\n\t\texpect(markup).toContain(\">Running</span>\");\n\t});\n\n\tit(\"shows the label by default\", () => {\n\t\tconst markup = renderToStaticMarkup(\n\t\t\t<SessionStatus label=\"Ready\" tone=\"neutral\" />,\n\t\t);\n\n\t\texpect(markup).no"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/switch.test.tsx",
+      "summary": "File: switch.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act, type ReactNode } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { Switch } from \"../components/index.js\";\n\nlet container: HTMLDivElement;\nlet root: Root;\n\nbeforeEach(() => {\n\tObject.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });\n\tcontainer = document.createElement(\"div\");\n\tdocument.body.appendChild(container);\n\troot = createRoot(container);\n});\n\nafterEach(async () => {\n\tawait act(async () => root.unmount());\n\tcontainer.remove();\n});\n\nasync function render(node: ReactNode) {\n\tawait act(async () => root.render(node));\n}\n\nfunction input() {\n\tconst element = container.querySelector<HTMLInputElement>(\"input\");\n\tif (!element) throw new Err"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/theme.test.ts",
+      "summary": "File: theme.test.ts",
+      "content": "import { existsSync, readFileSync } from \"node:fs\";\nimport { join } from \"node:path\";\nimport { fileURLToPath } from \"node:url\";\nimport { describe, expect, it } from \"vitest\";\n\nconst packageRoot = fileURLToPath(new URL(\"..\", import.meta.url));\nconst themeDir = join(packageRoot, \"theme\");\nconst componentsDir = join(packageRoot, \"components\");\nconst read = (name: string) => readFileSync(join(themeDir, name), \"utf8\");\nconst readComponent = (name: string) =>\n\treadFileSync(join(componentsDir, name), \"utf8\");\n\nconst paletteNames = [\n\t\"neutral\",\n\t\"accent\",\n\t\"error\",\n\t\"success\",\n\t\"warning\",\n\t\"info\",\n] as const;\n\nconst visualRoleTokens = [\n\t\"surface-1\",\n\t\"surface-2\",\n\t\"surface-3\",\n\t\"surface-hover\",\n\t\"surface-hover-lighter\",\n\t\"surface-hover-darker\",\n\t\"text-1\",\n\t\"text-2\",\n\t\"text-disabled\",\n\t\"border-1\""
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/tool-diff.test.tsx",
+      "summary": "File: tool-diff.test.tsx",
+      "content": "// @vitest-environment jsdom\n\nimport { act } from \"react\";\nimport { createRoot, type Root } from \"react-dom/client\";\nimport { afterEach, beforeEach, describe, expect, it, vi } from \"vitest\";\nimport { ToolFileDiff } from \"../components/agent-chat/tool-diff\";\n\n// @pierre/diffs' custom element adopts constructable stylesheets, which jsdom\n// does not implement; without this the suite exits nonzero on an unhandled\n// error even with every test passing.\nCSSStyleSheet.prototype.replaceSync ??= function replaceSync() {} as never;\n\n// jsdom does not implement ResizeObserver either, which @pierre/diffs\n// constructs on every render; without this each render logs a\n// ReferenceError to stderr.\nglobalThis.ResizeObserver ??= class ResizeObserver {\n\tobserve() {}\n\tunobserve() {}\n\tdisconnect() {}\n} as ne"
+    },
+    {
+      "path": "cline/sdk/packages/ui/tests/tool-summary.test.ts",
+      "summary": "File: tool-summary.test.ts",
+      "content": "import { describe, expect, it } from \"vitest\";\nimport {\n\tbuildGroupedToolLabel,\n\tbuildReadFilesKeys,\n\tbuildToolSummary,\n\tclassifyTool,\n\textractOutputMedia,\n\textractOutputText,\n\tnormalizeToolName,\n\tparseApplyPatchInput,\n\tparseReadFilesInput,\n\tshortenPath,\n} from \"../components/agent-chat/tool-summary\";\n\ndescribe(\"normalizeToolName / classifyTool\", () => {\n\tit(\"applies aliases from other runtimes\", () => {\n\t\texpect(normalizeToolName(\"bash\")).toBe(\"run_commands\");\n\t\texpect(normalizeToolName(\"Edit_File\")).toBe(\"editor\");\n\t\texpect(normalizeToolName(\"web-fetch\")).toBe(\"fetch_web_content\");\n\t});\n\n\tit(\"classifies sdk tool names\", () => {\n\t\texpect(classifyTool(\"read_files\")).toBe(\"read\");\n\t\texpect(classifyTool(\"editor\")).toBe(\"edit\");\n\t\texpect(classifyTool(\"apply_patch\")).toBe(\"edit\");\n\t\texpect(cla"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/agent-approval-card.stories.tsx",
+      "summary": "File: agent-approval-card.stories.tsx",
+      "content": "import type { Meta, StoryObj } from \"@storybook/react-vite\";\nimport { AgentApprovalCard } from \"../components/agent-approval-card\";\n\nconst meta: Meta<typeof AgentApprovalCard> = {\n\ttitle: \"Agent/Approval card\",\n\tcomponent: AgentApprovalCard,\n\ttags: [\"autodocs\"],\n\tparameters: {\n\t\tdocs: {\n\t\t\tdescription: {\n\t\t\t\tcomponent:\n\t\t\t\t\t\"Presents an agent action that requires explicit approval. Hosts provide the action details and own approval, rejection, pending, and error state.\",\n\t\t\t},\n\t\t},\n\t},\n\targs: {\n\t\tdescription: \"Cline wants to run a command in the current workspace.\",\n\t\tdetail: \"bun run test:unit\",\n\t\tmeta: \"Terminal\",\n\t\tonApprove: () => {},\n\t\tonReject: () => {},\n\t\ttitle: \"Run command?\",\n\t},\n};\n\nexport default meta;\n\ntype Story = StoryObj<typeof AgentApprovalCard>;\n\nexport const Default: Story"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/agent-ask-question.stories.tsx",
+      "summary": "File: agent-ask-question.stories.tsx",
+      "content": "import type { Meta, StoryObj } from \"@storybook/react-vite\";\nimport {\n\tAgentAskQuestion,\n\ttype AgentAskQuestionItem,\n} from \"../components/agent-ask-question\";\n\nconst questions: AgentAskQuestionItem[] = [\n\t{\n\t\tdescription: \"This controls where the new settings entry point appears.\",\n\t\tid: \"location\",\n\t\tmeta: \"Required\",\n\t\toptions: [\"Sidebar\", \"Command palette\", \"Both\"],\n\t\tquestion: \"Where should users open this feature?\",\n\t},\n\t{\n\t\tid: \"scope\",\n\t\toptions: [\"Current workspace\", \"All workspaces\"],\n\t\tquestion: \"Should the preference apply globally?\",\n\t},\n];\n\nconst meta: Meta<typeof AgentAskQuestion> = {\n\ttitle: \"Agent/Ask question\",\n\tcomponent: AgentAskQuestion,\n\ttags: [\"autodocs\"],\n\tparameters: {\n\t\tdocs: {\n\t\t\tdescription: {\n\t\t\t\tcomponent:\n\t\t\t\t\t\"Presents one or more model-supplied follow-up qu"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/agent-chat.stories.tsx",
+      "summary": "File: agent-chat.stories.tsx",
+      "content": "import type { Meta } from \"@storybook/react-vite\";\nimport {\n\tConversation,\n\tConversationContent,\n\tConversationEmptyState,\n\tConversationScrollButton,\n\tConversationViewport,\n\tMessage,\n\tMessageAction,\n\tMessageActions,\n\tMessageContent,\n\tReasoning,\n\tReasoningContent,\n\tReasoningTrigger,\n\tThinkingBlock,\n\tToolActivity,\n\tToolActivityCode,\n\tToolActivityContent,\n\tToolActivityDetails,\n\tToolActivityTrigger,\n\tWorkActivity,\n\tWorkActivityContent,\n\tWorkActivityTrigger,\n} from \"../components/agent-chat\";\nimport { ToolFileDiff } from \"../components/agent-chat/tool-diff\";\nimport {\n\tbuildToolSummary,\n\ttype ToolKind,\n\ttype ToolSummary,\n\ttype ToolSummaryItem,\n} from \"../components/agent-chat/tool-summary\";\n\nconst meta: Meta<typeof Conversation> = {\n\ttitle: \"Agent chat/Primitives\",\n\tcomponent: Conversation,\n\ttags"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/agent-prompt-queue.stories.tsx",
+      "summary": "File: agent-prompt-queue.stories.tsx",
+      "content": "import type { Meta, StoryObj } from \"@storybook/react-vite\";\nimport { useState } from \"react\";\nimport {\n\tAgentPromptQueue,\n\ttype AgentPromptQueueItem,\n\ttype AgentPromptQueueProps,\n} from \"../components/agent-prompt-queue\";\n\nconst queuedPrompts: AgentPromptQueueItem[] = [\n\t{\n\t\tattachmentCount: 2,\n\t\tid: \"tests\",\n\t\tprompt: \"Add tests for the new authentication flow\",\n\t\tsteer: true,\n\t},\n\t{\n\t\tid: \"docs\",\n\t\tprompt: \"Update the contributor documentation with the new setup steps\",\n\t\tsteer: false,\n\t},\n\t{\n\t\tattachmentCount: 1,\n\t\tid: \"review\",\n\t\tprompt: \"Review the final diff for accessibility issues\",\n\t\tsteer: false,\n\t},\n];\n\nconst meta: Meta<typeof AgentPromptQueue> = {\n\ttitle: \"Agent/Prompt queue\",\n\tcomponent: AgentPromptQueue,\n\ttags: [\"autodocs\"],\n\tparameters: {\n\t\tdocs: {\n\t\t\tdescription: {\n\t\t\t\tcom"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/agent-quick-actions.stories.tsx",
+      "summary": "File: agent-quick-actions.stories.tsx",
+      "content": "import type { Meta, StoryObj } from \"@storybook/react-vite\";\nimport {\n\tAgentQuickActions,\n\ttype AgentQuickAction,\n} from \"../components/agent-quick-actions\";\n\nconst actions: AgentQuickAction[] = [\n\t{\n\t\tdescription: \"Create a focused implementation plan before editing files\",\n\t\tid: \"plan\",\n\t\tlabel: \"Plan this task\",\n\t\tvalue: \"Create an implementation plan for this task.\",\n\t},\n\t{\n\t\tdescription: \"Find the files and symbols most relevant to the request\",\n\t\tid: \"explore\",\n\t\tlabel: \"Explore the codebase\",\n\t\tvalue: \"Explore the codebase and identify the relevant files.\",\n\t},\n\t{\n\t\tdescription: \"Start implementing and verify the result with tests\",\n\t\tid: \"implement\",\n\t\tlabel: \"Implement the change\",\n\t\tvalue: \"Implement this change and run the relevant tests.\",\n\t},\n];\n\nconst meta: Meta<typeof AgentQ"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/badge.stories.tsx",
+      "summary": "File: badge.stories.tsx",
+      "content": "import type { Meta, StoryObj } from \"@storybook/react-vite\";\nimport { Badge } from \"../components/badge\";\n\nconst meta: Meta<typeof Badge> = {\n\ttitle: \"Components/Badge\",\n\tcomponent: Badge,\n\ttags: [\"autodocs\"],\n\targs: {\n\t\tchildren: \"Required\",\n\t},\n};\n\nexport default meta;\n\ntype Story = StoryObj<typeof Badge>;\n\nexport const Default: Story = {};\n\nexport const Customized: Story = {\n\targs: {\n\t\t\"aria-label\": \"Current status\",\n\t\tchildren: \"In progress\",\n\t\tclassName: \"uppercase\",\n\t},\n};\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/button.stories.tsx",
+      "summary": "File: button.stories.tsx",
+      "content": "import type { Meta } from \"@storybook/react-vite\";\nimport { Fragment } from \"react\";\nimport { Button, type ButtonTone, IconButton } from \"../components/button\";\n\nconst meta: Meta = {\n\ttitle: \"Components/Button\",\n\ttags: [\"autodocs\"],\n\tparameters: {\n\t\tdocs: {\n\t\t\tdescription: {\n\t\t\t\tcomponent:\n\t\t\t\t\t\"Two components — `Button` (text, with optional icon children) and `IconButton` (square, icon-only) — sharing the same `variant × tone × size` design tokens.\\n\\n\" +\n\t\t\t\t\t\"**variant** `fill | surface | ghost` — fill is solid-colored, surface has a soft tinted background, ghost only shows a background on hover.\\n\\n\" +\n\t\t\t\t\t\"**tone** `accent | neutral | destructive` — applies to all three variants.\\n\\n\" +\n\t\t\t\t\t\"**size** `xs | sm | md | lg` — same names for both Button and IconButton.\",\n\t\t\t},\n\t\t},\n\t},\n}"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/foundations.stories.tsx",
+      "summary": "File: foundations.stories.tsx",
+      "content": "import type { Meta } from \"@storybook/react-vite\";\n\nconst steps = Array.from({ length: 12 }, (_, index) => index + 1);\n\nconst palettes = [\n\t[\"Neutral · Slate\", \"neutral\"],\n\t[\"Accent · Violet\", \"accent\"],\n\t[\"Error · Ruby\", \"error\"],\n\t[\"Success · Green\", \"success\"],\n\t[\"Warning · Amber\", \"warning\"],\n\t[\"Info · Sky\", \"info\"],\n] as const;\n\nconst visualRoles = [\n\t[\"Surface 1\", \"--surface-1\"],\n\t[\"Surface 2\", \"--surface-2\"],\n\t[\"Surface 3\", \"--surface-3\"],\n\t[\"Surface hover lighter\", \"--surface-hover-lighter\"],\n\t[\"Surface hover\", \"--surface-hover\"],\n\t[\"Surface hover darker\", \"--surface-hover-darker\"],\n\t[\"Text 1\", \"--text-1\"],\n\t[\"Text 2\", \"--text-2\"],\n\t[\"Text disabled\", \"--text-disabled\"],\n\t[\"Border 1\", \"--border-1\"],\n\t[\"Border 2\", \"--border-2\"],\n\t[\"Focus ring\", \"--focus-ring\"],\n] as const;\n\nconst sem"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/search-combobox.stories.tsx",
+      "summary": "File: search-combobox.stories.tsx",
+      "content": "import type { Meta, StoryObj } from \"@storybook/react-vite\";\nimport { useState } from \"react\";\nimport {\n\tSearchCombobox,\n\ttype SearchComboboxOption,\n\ttype SearchComboboxProps,\n} from \"../components/search-combobox\";\n\nconst repositoryOptions: SearchComboboxOption[] = [\n\t{ label: \"cline/cline\", value: \"cline\" },\n\t{\n\t\tdescription: \"Cloud dashboard\",\n\t\tlabel: \"cline/core-platform\",\n\t\tvalue: \"core-platform\",\n\t},\n\t{\n\t\tdescription: \"Shared agent UI\",\n\t\tlabel: \"cline/ui\",\n\t\tvalue: \"ui\",\n\t},\n];\n\nconst modelOptions: SearchComboboxOption[] = [\n\t{\n\t\tdescription: \"Anthropic\",\n\t\tlabel: \"Claude Sonnet 4\",\n\t\tvalue: \"claude-sonnet-4\",\n\t},\n\t{\n\t\tdescription: \"Anthropic\",\n\t\tlabel: \"Claude Opus 4\",\n\t\tvalue: \"claude-opus-4\",\n\t},\n\t{\n\t\tdescription: \"OpenAI\",\n\t\tlabel: \"GPT-5\",\n\t\tvalue: \"gpt-5\",\n\t},\n];\n\nconst meta:"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/session-status.stories.tsx",
+      "summary": "File: session-status.stories.tsx",
+      "content": "import type { Meta, StoryObj } from \"@storybook/react-vite\";\nimport { SessionStatus } from \"../components/session-status\";\n\nconst meta: Meta<typeof SessionStatus> = {\n\ttitle: \"Components/Session status\",\n\tcomponent: SessionStatus,\n\ttags: [\"autodocs\"],\n\tparameters: {\n\t\tdocs: {\n\t\t\tdescription: {\n\t\t\t\tcomponent:\n\t\t\t\t\t\"Compact session state indicator. The dot color follows the tone; set --cline-ui-session-status-color for a host-specific palette.\",\n\t\t\t},\n\t\t},\n\t},\n};\n\nexport default meta;\n\ntype Story = StoryObj<typeof SessionStatus>;\n\nexport const States: Story = {\n\trender: () => (\n\t\t<div className=\"flex flex-col gap-4 p-6\">\n\t\t\t<SessionStatus label=\"Idle\" tone=\"neutral\" />\n\t\t\t<SessionStatus label=\"Running\" tone=\"running\" />\n\t\t\t<SessionStatus label=\"Error\" tone=\"error\" />\n\t\t</div>\n\t),\n};\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/stories/switch.stories.tsx",
+      "summary": "File: switch.stories.tsx",
+      "content": "import type { Meta, StoryObj } from \"@storybook/react-vite\";\nimport { type CSSProperties, useId } from \"react\";\nimport { useArgs } from \"storybook/preview-api\";\nimport { Switch, type SwitchProps } from \"../components/switch\";\n\nconst meta: Meta<typeof Switch> = {\n\ttitle: \"Components/Switch\",\n\tcomponent: Switch,\n\ttags: [\"autodocs\"],\n\tparameters: {\n\t\tdocs: {\n\t\t\tdescription: {\n\t\t\t\tcomponent:\n\t\t\t\t\t\"A switch for turning a setting on or off. Pair it with a visible label, or provide an accessible name with aria-label.\",\n\t\t\t},\n\t\t},\n\t},\n\tdecorators: [\n\t\t(Story) => (\n\t\t\t<div className=\"flex min-h-40 items-center justify-center p-6\">\n\t\t\t\t<Story />\n\t\t\t</div>\n\t\t),\n\t],\n\targs: { \"aria-label\": \"Enable notifications\" },\n\targTypes: { onCheckedChange: { action: \"checked changed\" } },\n};\n\nexport default meta;\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/scripts/generate-theme.ts",
+      "summary": "File: generate-theme.ts",
+      "content": "import { readFileSync, writeFileSync } from \"node:fs\";\nimport { join } from \"node:path\";\n\nconst packageRoot = join(import.meta.dir, \"..\");\nconst palettePath = join(packageRoot, \"theme\", \"palette.css\");\nconst tokensPath = join(packageRoot, \"theme\", \"tokens.css\");\nconst themePath = join(packageRoot, \"theme\", \"theme.css\");\nconst scopedOutputPath = join(packageRoot, \"theme\", \"scoped-tokens.css\");\nconst componentThemeOutputPath = join(\n\tpackageRoot,\n\t\"theme\",\n\t\"component-theme.css\",\n);\nconst checkOnly = process.argv.includes(\"--check\");\nconst scopedHeader = `/*\n * Generated by scripts/generate-theme.ts from theme/palette.css and\n * theme/tokens.css. Edit those sources, then run \\`bun run generate:theme\\`.\n */\n\n`;\nconst componentThemeHeader = `/*\n * Generated by scripts/generate-theme.ts from th"
+    },
+    {
+      "path": "cline/sdk/packages/ui/scripts/smoke-package.ts",
+      "summary": "File: smoke-package.ts",
+      "content": "import {\n\tmkdirSync,\n\tmkdtempSync,\n\treaddirSync,\n\treadFileSync,\n\trmSync,\n\twriteFileSync,\n} from \"node:fs\";\nimport { tmpdir } from \"node:os\";\nimport { basename, join, resolve } from \"node:path\";\n\nconst packageRoot = join(import.meta.dir, \"..\");\nconst importCheck = `\nimport { existsSync, readFileSync } from \"node:fs\";\nimport { fileURLToPath } from \"node:url\";\nimport {\n\tAgentAskQuestion,\n\tAgentApprovalCard,\n\tAttachmentDropZone,\n\tAgentAurora,\n\tAgentHeroHeading,\n\tAgentWelcomeHero,\n\tAgentPromptQueue,\n\tAgentQuickActions,\n\tSearchCombobox,\n\tSessionStatus,\n\tSwitch,\n} from \"@cline/ui\";\nimport { Conversation, Message } from \"@cline/ui/components/agent-chat\";\nimport { ToolFileDiff } from \"@cline/ui/components/agent-chat/tool-diff\";\nimport { buildToolSummary } from \"@cline/ui/components/agent-chat/tool-"
+    },
+    {
+      "path": "cline/sdk/packages/ui/scripts/validate-theme.ts",
+      "summary": "File: validate-theme.ts",
+      "content": "import { existsSync, readFileSync } from \"node:fs\";\nimport { join } from \"node:path\";\n\nconst packageRoot = join(import.meta.dir, \"..\");\nconst readThemeFile = (name: string) =>\n\treadFileSync(join(packageRoot, \"theme\", name), \"utf8\");\n\nconst palette = readThemeFile(\"palette.css\");\nconst tokens = readThemeFile(\"tokens.css\");\nconst tokensWithoutComments = tokens.replace(/\\/\\*[\\s\\S]*?\\*\\//g, \"\");\nconst paletteWithoutComments = palette.replace(/\\/\\*[\\s\\S]*?\\*\\//g, \"\");\nconst scopedTokens = readThemeFile(\"scoped-tokens.css\");\nconst theme = readThemeFile(\"theme.css\");\nconst componentTheme = readThemeFile(\"component-theme.css\");\nconst base = readThemeFile(\"base.css\");\nconst index = readThemeFile(\"index.css\");\nconst components = readFileSync(join(packageRoot, \"components.css\"), \"utf8\");\nconst manife"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-approval-card.tsx",
+      "summary": "File: agent-approval-card.tsx",
+      "content": "\"use client\";\n\nimport { type ReactNode, useId } from \"react\";\n\nexport type AgentApprovalAction = \"approve\" | \"reject\";\n\nexport interface AgentApprovalCardProps {\n\tdescription?: ReactNode;\n\tdetail?: ReactNode;\n\terror?: ReactNode;\n\tmeta?: ReactNode;\n\tonApprove: () => void;\n\tonReject: () => void;\n\tresponding?: AgentApprovalAction;\n\ttitle: ReactNode;\n}\n\nfunction Spinner() {\n\treturn (\n\t\t<svg\n\t\t\taria-hidden=\"true\"\n\t\t\tclassName=\"cline-ui-agent-approval-card__spinner mr-1 size-3.5 fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] stroke-2\"\n\t\t\tviewBox=\"0 0 24 24\"\n\t\t>\n\t\t\t<path d=\"M21 12a9 9 0 1 1-6.219-8.56\" />\n\t\t</svg>\n\t);\n}\n\nexport function AgentApprovalCard({\n\tdescription,\n\tdetail,\n\terror,\n\tmeta,\n\tonApprove,\n\tonReject,\n\tresponding,\n\ttitle,\n}: AgentApprovalCardProps) {\n\tconst"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-ask-question.tsx",
+      "summary": "File: agent-ask-question.tsx",
+      "content": "\"use client\";\n\nimport {\n\ttype KeyboardEvent as ReactKeyboardEvent,\n\ttype ReactNode,\n\tuseState,\n} from \"react\";\nimport { Badge } from \"./badge.js\";\nimport { Button } from \"./button.js\";\n\nexport interface AgentAskQuestionItem {\n\tdescription?: ReactNode;\n\tid: string;\n\tmeta?: ReactNode;\n\tmultiple?: boolean;\n\toptions: readonly string[];\n\tquestion: ReactNode;\n}\n\nexport interface AgentAskQuestionProps {\n\terrors?: Readonly<Record<string, ReactNode>>;\n\titems: readonly AgentAskQuestionItem[];\n\tonAnswer: (id: string, answer: string) => void;\n\tonAnswers?: (id: string, answers: readonly string[]) => void;\n\tpendingAnswers?: Readonly<\n\t\tRecord<string, string | readonly string[] | undefined>\n\t>;\n}\n\nfunction optionLabel(index: number) {\n\tlet value = index + 1;\n\tlet label = \"\";\n\n\twhile (value > 0) {\n\t\tvalue"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-aurora.tsx",
+      "summary": "File: agent-aurora.tsx",
+      "content": "\"use client\";\n\ninterface AuroraStar {\n\tcolor: string;\n\tdelay: string;\n\tduration: string;\n\tleft: string;\n\topacity: number;\n\tsize: number;\n\ttop: string;\n}\n\nconst BLOBS = [\n\t{\n\t\tdelay: \"0s\",\n\t\tgradient:\n\t\t\t\"radial-gradient(ellipse at center, color-mix(in oklab, var(--brand-periwinkle) 64%, transparent), color-mix(in oklab, var(--brand-periwinkle) 30%, transparent) 42%, transparent 70%)\",\n\t\tid: \"periwinkle-left\",\n\t\tposition: \"left\",\n\t\tduration: \"11s\",\n\t},\n\t{\n\t\tdelay: \"-12s\",\n\t\tgradient:\n\t\t\t\"radial-gradient(ellipse at center, color-mix(in oklab, var(--brand-violet) 58%, transparent), color-mix(in oklab, var(--brand-violet) 27%, transparent) 42%, transparent 70%)\",\n\t\tid: \"violet-right\",\n\t\tposition: \"right\",\n\t\tduration: \"12.5s\",\n\t},\n] as const;\n\nfunction seededUnit(index: number, salt: number): n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-hero-heading.tsx",
+      "summary": "File: agent-hero-heading.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useState } from \"react\";\n\nconst HERO_VERBS = [\"build\", \"create\", \"fix\", \"know\"] as const;\nconst HERO_CYCLE_MS = 5000;\n\nexport function AgentHeroHeading() {\n\tconst [verbIndex, setVerbIndex] = useState(0);\n\n\tuseEffect(() => {\n\t\tconst media = window.matchMedia?.(\"(prefers-reduced-motion: reduce)\");\n\t\tif (media?.matches) return;\n\t\tconst interval = window.setInterval(() => {\n\t\t\tsetVerbIndex((current) => (current + 1) % HERO_VERBS.length);\n\t\t}, HERO_CYCLE_MS);\n\t\treturn () => window.clearInterval(interval);\n\t}, []);\n\n\tconst verb = HERO_VERBS[verbIndex];\n\n\treturn (\n\t\t<h1\n\t\t\taria-label=\"What would you like to build?\"\n\t\t\tclassName=\"cline-ui-agent-hero-heading\"\n\t\t>\n\t\t\t<span aria-hidden=\"true\">\n\t\t\t\tWhat would you like to{\" \"}\n\t\t\t\t<span className=\"cline-ui-agent-hero-"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-prompt-queue.tsx",
+      "summary": "File: agent-prompt-queue.tsx",
+      "content": "\"use client\";\n\nimport { useCallback, useEffect, useId, useState } from \"react\";\n\nexport interface AgentPromptQueueItem {\n\tattachmentCount?: number;\n\tid: string;\n\tprompt: string;\n\tsteer: boolean;\n}\n\nexport interface AgentPromptQueueProps {\n\titems: readonly AgentPromptQueueItem[];\n\tonEdit: (id: string, prompt: string) => Promise<void> | void;\n\tonRemove: (id: string) => Promise<void> | void;\n\tonSteer: (id: string) => Promise<void> | void;\n}\n\ntype IconName =\n\t| \"check\"\n\t| \"corner-down-left\"\n\t| \"chevron-down\"\n\t| \"chevron-right\"\n\t| \"clock\"\n\t| \"pencil\"\n\t| \"trash\"\n\t| \"x\";\n\nconst ACTION_CLASS_NAME =\n\t\"cline-ui-agent-prompt-queue__action inline-flex cursor-pointer items-center justify-center rounded-cline-ui-md border-0 bg-transparent p-1 text-cline-ui-muted-foreground transition-[color,background-c"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-quick-actions.tsx",
+      "summary": "File: agent-quick-actions.tsx",
+      "content": "export interface AgentQuickAction {\n\tdescription: string;\n\tid: string;\n\tlabel: string;\n\tvalue: string;\n}\n\nexport interface AgentQuickActionsProps {\n\tactions: AgentQuickAction[];\n\tclassName?: string;\n\tdisabled?: boolean;\n\tonSelect: (action: AgentQuickAction) => void;\n}\n\nexport function AgentQuickActions({\n\tactions,\n\tclassName,\n\tdisabled = false,\n\tonSelect,\n}: AgentQuickActionsProps) {\n\tif (actions.length === 0) return null;\n\n\treturn (\n\t\t<div\n\t\t\tclassName={[\n\t\t\t\t\"cline-ui-agent-quick-actions w-full overflow-hidden rounded-cline-ui-xl border border-cline-ui-border/60 bg-cline-ui-background/95 px-2 shadow-sm\",\n\t\t\t\tclassName,\n\t\t\t]\n\t\t\t\t.filter(Boolean)\n\t\t\t\t.join(\" \")}\n\t\t>\n\t\t\t{actions.map((action) => (\n\t\t\t\t<button\n\t\t\t\t\tclassName=\"cline-ui-agent-quick-actions__item flex w-full cursor-pointer items"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-welcome-hero-pointer.ts",
+      "summary": "File: agent-welcome-hero-pointer.ts",
+      "content": "import { type RefObject, useEffect } from \"react\";\n\nconst POINTER_CONFIG = {\n\tdefaultFrameHeight: 220,\n\tdefaultGridHeight: 520,\n\teyes: {\n\t\ttravel: 6,\n\t\tfalloffDistance: 200,\n\t\tsmoothing: 0.22,\n\t},\n} as const;\n\nfunction clamp(value: number, min: number, max: number): number {\n\treturn Math.min(Math.max(value, min), max);\n}\n\nconst POINTER_PROPERTIES = [\n\t\"--welcome-grid-x\",\n\t\"--welcome-grid-y\",\n\t\"--welcome-eye-x\",\n\t\"--welcome-eye-y\",\n] as const;\n\nfunction resetPointerStyles(element: HTMLDivElement | null): void {\n\tif (!element) return;\n\tfor (const property of POINTER_PROPERTIES) {\n\t\telement.style.removeProperty(property);\n\t}\n}\n\nfunction getPointerState(\n\telement: HTMLDivElement,\n\tclientX: number,\n\tclientY: number,\n) {\n\tconst bounds = element.getBoundingClientRect();\n\tif (bounds.width <= 0 || "
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-welcome-hero.tsx",
+      "summary": "File: agent-welcome-hero.tsx",
+      "content": "\"use client\";\n\nimport { useRef } from \"react\";\nimport { useAgentWelcomeHeroPointer } from \"./agent-welcome-hero-pointer.js\";\n\nexport type AgentWelcomeHeroLayout = \"default\" | \"full-bleed\" | \"wide-grid\";\n\nexport interface AgentWelcomeHeroProps {\n\tinteractive?: boolean;\n\tlayout?: AgentWelcomeHeroLayout;\n\tvariant?: \"full\" | \"grid-only\" | \"bot-only\";\n}\n\n/** Cline bot illustration and grid backdrop used on agent welcome surfaces. */\nexport function AgentWelcomeHero({\n\tinteractive,\n\tlayout = \"default\",\n\tvariant = \"full\",\n}: AgentWelcomeHeroProps) {\n\tconst heroRef = useRef<HTMLDivElement>(null);\n\tconst showsGrid = variant !== \"bot-only\";\n\tconst showsBot = variant !== \"grid-only\";\n\tconst tracksPointer = interactive ?? showsBot;\n\tuseAgentWelcomeHeroPointer(heroRef, tracksPointer);\n\n\treturn (\n\t\t<div"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/attachment-drop-zone.tsx",
+      "summary": "File: attachment-drop-zone.tsx",
+      "content": "\"use client\";\n\nimport { clsx } from \"clsx\";\nimport {\n\tforwardRef,\n\ttype HTMLAttributes,\n\ttype ReactNode,\n\tuseCallback,\n\tuseEffect,\n\tuseRef,\n\tuseState,\n} from \"react\";\n\nexport interface AttachmentDropZoneProps\n\textends Omit<\n\t\tHTMLAttributes<HTMLDivElement>,\n\t\t\"onDragEnter\" | \"onDragLeave\" | \"onDragOver\" | \"onDrop\"\n\t> {\n\tchildren: ReactNode;\n\tdescription?: ReactNode;\n\tdisabled?: boolean;\n\tlabel?: ReactNode;\n\tonAttachFiles: (files: File[]) => void;\n}\n\nfunction includesFiles(event: React.DragEvent<HTMLDivElement>): boolean {\n\treturn event.dataTransfer.types.includes(\"Files\");\n}\n\nfunction ImagePlusIcon() {\n\treturn (\n\t\t<svg\n\t\t\taria-hidden=\"true\"\n\t\t\tclassName=\"size-8 text-cline-ui-primary\"\n\t\t\tfill=\"none\"\n\t\t\tstroke=\"currentColor\"\n\t\t\tstrokeLinecap=\"round\"\n\t\t\tstrokeLinejoin=\"round\"\n\t\t\tstrokeWidth=\""
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/badge.tsx",
+      "summary": "File: badge.tsx",
+      "content": "\"use client\";\n\nimport { clsx } from \"clsx\";\nimport { forwardRef, type HTMLAttributes } from \"react\";\n\nexport interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {}\n\nexport const Badge = forwardRef<HTMLSpanElement, BadgeProps>(\n\t({ className, ...props }, ref) => (\n\t\t<span\n\t\t\t{...props}\n\t\t\tclassName={clsx(\n\t\t\t\t\"inline-flex shrink-0 items-center rounded-cline-ui-sm border border-cline-ui-border bg-cline-ui-surface-hover-lighter px-1.5 pt-[0.3rem] pb-[0.2rem] text-cline-ui-muted-foreground text-cline-ui-xs\",\n\t\t\t\tclassName,\n\t\t\t)}\n\t\t\tdata-slot=\"badge\"\n\t\t\tref={ref}\n\t\t/>\n\t),\n);\nBadge.displayName = \"Badge\";\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/button.tsx",
+      "summary": "File: button.tsx",
+      "content": "\"use client\";\n\nimport { Slot } from \"@radix-ui/react-slot\";\nimport { cva, type VariantProps } from \"class-variance-authority\";\nimport { clsx } from \"clsx\";\nimport {\n\ttype ButtonHTMLAttributes,\n\tcloneElement,\n\tforwardRef,\n\tisValidElement,\n\ttype MouseEventHandler,\n\ttype ReactNode,\n} from \"react\";\n\nconst BASE =\n\t\"inline-flex items-center justify-center whitespace-nowrap rounded-cline-ui-md font-cline-ui-medium cursor-pointer \" +\n\t\"disabled:pointer-events-none disabled:opacity-50 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 \" +\n\t\"[&_svg]:pointer-events-none [&_svg]:shrink-0 shrink-0 \" +\n\t\"outline-none focus-visible:ring-2 focus-visible:ring-cline-ui-ring/60 transition-colors\";\n\n// ─── Button ───────────────────────────────────────────────────────────────────\n\nexport const but"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/generated-media.tsx",
+      "summary": "File: generated-media.tsx",
+      "content": "\"use client\";\n\nimport {\n\tDEFAULT_MAX_TOTAL_MEDIA_BYTES,\n\ttype GeneratedMedia,\n\ttype GeneratedMediaModality,\n\tisCanonicalBase64,\n\tSUPPORTED_IMAGE_MEDIA_TYPES,\n} from \"@cline/shared/browser\";\nimport { useEffect, useState } from \"react\";\n\nexport interface GeneratedMediaClassNames\n\textends Partial<Record<GeneratedMediaModality, string>> {\n\tunavailable?: string;\n}\n\nexport interface GeneratedMediaContentProps {\n\tmedia: GeneratedMedia;\n\tclassName?: string;\n\tclassNames?: GeneratedMediaClassNames;\n}\n\nfunction decodeBase64(data: string): ArrayBuffer | undefined {\n\tif (data.length > DEFAULT_MAX_TOTAL_MEDIA_BYTES || !isCanonicalBase64(data)) {\n\t\treturn undefined;\n\t}\n\ttry {\n\t\tconst binary = atob(data);\n\t\tconst buffer = new ArrayBuffer(binary.length);\n\t\tconst bytes = new Uint8Array(buffer);\n\t\tfor (let i"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/github-icon.tsx",
+      "summary": "File: github-icon.tsx",
+      "content": "\"use client\";\n\nimport type { SVGProps } from \"react\";\n\nexport function GitHubIcon(props: SVGProps<SVGSVGElement>) {\n\treturn (\n\t\t<svg\n\t\t\taria-hidden=\"true\"\n\t\t\tfill=\"currentColor\"\n\t\t\theight={16}\n\t\t\tviewBox=\"0 0 24 24\"\n\t\t\twidth={16}\n\t\t\txmlns=\"http://www.w3.org/2000/svg\"\n\t\t\t{...props}\n\t\t>\n\t\t\t<path d=\"M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 "
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/index.ts",
+      "summary": "File: index.ts",
+      "content": "\"use client\";\n\nexport {\n\ttype AgentApprovalAction,\n\tAgentApprovalCard,\n\ttype AgentApprovalCardProps,\n} from \"./agent-approval-card.js\";\nexport {\n\tAgentAskQuestion,\n\ttype AgentAskQuestionItem,\n\ttype AgentAskQuestionProps,\n} from \"./agent-ask-question.js\";\nexport { AgentAurora } from \"./agent-aurora.js\";\nexport { AgentHeroHeading } from \"./agent-hero-heading.js\";\nexport {\n\tAgentPromptQueue,\n\ttype AgentPromptQueueItem,\n\ttype AgentPromptQueueProps,\n} from \"./agent-prompt-queue.js\";\nexport {\n\ttype AgentQuickAction,\n\tAgentQuickActions,\n\ttype AgentQuickActionsProps,\n} from \"./agent-quick-actions.js\";\nexport {\n\tAgentWelcomeHero,\n\ttype AgentWelcomeHeroLayout,\n\ttype AgentWelcomeHeroProps,\n} from \"./agent-welcome-hero.js\";\nexport {\n\tAttachmentDropZone,\n\ttype AttachmentDropZoneProps,\n} from \"./attachm"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/markdown.ts",
+      "summary": "File: markdown.ts",
+      "content": "import type {\n\tHighlighterCore,\n\tLanguageRegistration,\n\tThemeRegistration,\n} from \"shiki/core\";\nimport type { CodeHighlighterPlugin, ControlsConfig } from \"streamdown\";\n\n/**\n * Shared Streamdown configuration for agent chat Markdown, so every product\n * renders assistant prose the same way. Products keep their own Streamdown\n * wrapper (link policy, image policy, extra plugins) and pass these in:\n *\n *   <Streamdown\n *     className=\"cline-markdown\"\n *     controls={agentMarkdownControls}\n *     plugins={{ code: markdownCodeHighlighter }}\n *   >\n *\n * Pair with `@cline/ui/components/markdown.css` for the matching visual\n * treatment (single quiet code blocks with a hover copy control, chat-scale\n * headings, table cards).\n *\n * Runtime requirements (optional peer dependencies): `streamdown"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/search-combobox.tsx",
+      "summary": "File: search-combobox.tsx",
+      "content": "\"use client\";\n\nimport {\n\ttype ReactNode,\n\tuseCallback,\n\tuseEffect,\n\tuseId,\n\tuseMemo,\n\tuseRef,\n\tuseState,\n} from \"react\";\n\nexport interface SearchComboboxOption {\n\t/** Small pill rendered after the label (e.g. \"NEW\", \"Free\"). */\n\tbadge?: string;\n\tdescription?: string;\n\ticon?: ReactNode;\n\tlabel: string;\n\t/** Id of the section this option belongs to (see `sections`). */\n\tsection?: string;\n\tvalue: string;\n}\n\nexport interface SearchComboboxSection {\n\tdescription?: string;\n\tid: string;\n\tlabel: string;\n}\n\nexport interface SearchComboboxProps {\n\talign?: \"start\" | \"end\";\n\tariaLabel: string;\n\tclassName?: string;\n\tdisabled?: boolean;\n\temptyText?: string;\n\tloading?: boolean;\n\tloadingText?: string;\n\t/** Called when the panel opens, so callers can refresh stale options. */\n\tonOpen?: () => void;\n\tonValue"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/session-status.tsx",
+      "summary": "File: session-status.tsx",
+      "content": "import type { OutputHTMLAttributes } from \"react\";\n\nexport type SessionStatusTone = \"neutral\" | \"running\" | \"error\";\n\nexport interface SessionStatusProps\n\textends OutputHTMLAttributes<HTMLOutputElement> {\n\tlabel: string;\n\tshowLabel?: boolean;\n\ttone?: SessionStatusTone;\n}\n\nexport function SessionStatus({\n\tclassName,\n\tlabel,\n\tshowLabel = true,\n\ttone = \"neutral\",\n\t...props\n}: SessionStatusProps) {\n\treturn (\n\t\t<output\n\t\t\tclassName={[\n\t\t\t\t\"cline-ui-session-status inline-flex items-center gap-1.5 text-cline-ui-xs leading-none text-cline-ui-muted-foreground\",\n\t\t\t\t`cline-ui-session-status--${tone}`,\n\t\t\t\tclassName,\n\t\t\t]\n\t\t\t\t.filter(Boolean)\n\t\t\t\t.join(\" \")}\n\t\t\t{...props}\n\t\t>\n\t\t\t<span\n\t\t\t\taria-hidden=\"true\"\n\t\t\t\tclassName=\"cline-ui-session-status__dot size-1.5 shrink-0 rounded-full\"\n\t\t\t/>\n\t\t\t<span cla"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/switch.tsx",
+      "summary": "File: switch.tsx",
+      "content": "\"use client\";\n\nimport { clsx } from \"clsx\";\nimport { forwardRef, type InputHTMLAttributes } from \"react\";\n\nexport interface SwitchProps\n\textends Omit<\n\t\tInputHTMLAttributes<HTMLInputElement>,\n\t\t\"children\" | \"type\" | \"role\" | \"size\" | \"aria-checked\"\n\t> {\n\tonCheckedChange?: (checked: boolean) => void;\n}\n\n/** A native checkbox with switch semantics; className and style apply to the wrapper. */\nexport const Switch = forwardRef<HTMLInputElement, SwitchProps>(\n\t(\n\t\t{ className, style, dir, hidden, onChange, onCheckedChange, ...props },\n\t\tref,\n\t) => (\n\t\t<span\n\t\t\tclassName={clsx(\"cline-ui-switch\", className)}\n\t\t\tdata-slot=\"switch-root\"\n\t\t\tdir={dir}\n\t\t\thidden={hidden}\n\t\t\tstyle={style}\n\t\t>\n\t\t\t<input\n\t\t\t\t{...props}\n\t\t\t\tclassName=\"cline-ui-switch__input\"\n\t\t\t\tdata-slot=\"switch\"\n\t\t\t\tdir={dir}\n\t\t\t\tonChan"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-chat/disclosure.tsx",
+      "summary": "File: disclosure.tsx",
+      "content": "\"use client\";\n\nimport {\n\ttype HTMLAttributes,\n\tversion as reactVersion,\n\tuseCallback,\n\tuseEffect,\n\tuseId,\n\tuseState,\n} from \"react\";\n\nfunction classNames(...values: Array<string | undefined | false>): string {\n\treturn values.filter(Boolean).join(\" \");\n}\n\nexport type DisclosureState = {\n\tisOpen: boolean;\n\tpanelId: string;\n\tsetIsOpen: (open: boolean) => void;\n};\n\nexport function useDisclosureState({\n\tdefaultOpen = false,\n\tenabled = true,\n\tonOpenChange,\n\topen,\n}: {\n\tdefaultOpen?: boolean;\n\tenabled?: boolean;\n\tonOpenChange?: (open: boolean) => void;\n\topen?: boolean;\n}): DisclosureState {\n\tconst [internalOpen, setInternalOpen] = useState(defaultOpen);\n\tconst panelId = useId();\n\tconst isOpen = enabled && (open ?? internalOpen);\n\tconst setIsOpen = useCallback(\n\t\t(nextOpen: boolean) => {\n\t\t\tif (!e"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-chat/index.tsx",
+      "summary": "File: index.tsx",
+      "content": "\"use client\";\n\nimport {\n\ttype ButtonHTMLAttributes,\n\tcreateContext,\n\tforwardRef,\n\ttype HTMLAttributes,\n\ttype MouseEvent as ReactMouseEvent,\n\ttype ReactNode,\n\ttype Ref,\n\ttype RefCallback,\n\tuseCallback,\n\tuseContext,\n\tuseEffect,\n\tuseLayoutEffect,\n\tuseMemo,\n\tuseRef,\n\tuseState,\n} from \"react\";\nimport { IconButton } from \"../button.js\";\nimport {\n\tDisclosureContent,\n\ttype DisclosureContentPresentation,\n\ttype DisclosureState,\n\tuseDisclosureState,\n} from \"./disclosure.js\";\n\nconst STICK_TO_BOTTOM_THRESHOLD_PX = 24;\nconst SCROLL_BUTTON_THRESHOLD_PX = 120;\n\nfunction classNames(...values: Array<string | undefined | false>): string {\n\treturn values.filter(Boolean).join(\" \");\n}\n\nfunction assignRef<T>(ref: Ref<T> | undefined, value: T | null): void {\n\tif (typeof ref === \"function\") {\n\t\tref(value);\n\t\tretur"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-chat/tool-diff.tsx",
+      "summary": "File: tool-diff.tsx",
+      "content": "\"use client\";\n\n/**\n * Rich diff rendering for tool-call rows, backed by @pierre/diffs\n * (https://github.com/pierrecomputer/pierre). Pairs with the tool-summary\n * module: feed a file item's `path`/`oldText`/`newText`/`fragment` straight\n * in and every product renders the same syntax-highlighted, theme-aware diff.\n *\n * @pierre/diffs is an optional peer dependency — only consumers importing\n * this subpath need to install it.\n */\n\nimport { parseDiffFromFile } from \"@pierre/diffs\";\nimport { FileDiff } from \"@pierre/diffs/react\";\nimport {\n\ttype ComponentProps,\n\ttype CSSProperties,\n\tuseEffect,\n\tuseMemo,\n\tuseRef,\n\tuseState,\n} from \"react\";\n\n// Derived from the component rather than FileDiffProps: the props interface\n// gained a second required type parameter in @pierre/diffs 1.4 while the\n// "
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-chat/tool-summary/diff.ts",
+      "summary": "File: diff.ts",
+      "content": "function computeLcs(a: string[], b: string[]): number[][] {\n\tconst m = a.length;\n\tconst n = b.length;\n\tconst dp: number[][] = Array.from({ length: m + 1 }, () =>\n\t\tnew Array(n + 1).fill(0),\n\t);\n\tfor (let i = 1; i <= m; i++) {\n\t\tfor (let j = 1; j <= n; j++) {\n\t\t\tdp[i][j] =\n\t\t\t\ta[i - 1] === b[j - 1]\n\t\t\t\t\t? dp[i - 1][j - 1] + 1\n\t\t\t\t\t: Math.max(dp[i - 1][j], dp[i][j - 1]);\n\t\t}\n\t}\n\treturn dp;\n}\n\nfunction diffLines(\n\toldLines: string[],\n\tnewLines: string[],\n): { type: \"+\" | \"-\" | \" \"; line: string }[] {\n\tconst dp = computeLcs(oldLines, newLines);\n\tconst result: { type: \"+\" | \"-\" | \" \"; line: string }[] = [];\n\tlet i = oldLines.length;\n\tlet j = newLines.length;\n\twhile (i > 0 || j > 0) {\n\t\tif (i > 0 && j > 0 && oldLines[i - 1] === newLines[j - 1]) {\n\t\t\tresult.unshift({ type: \" \", line: oldLines[i -"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-chat/tool-summary/index.ts",
+      "summary": "File: index.ts",
+      "content": "/**\n * Shared, framework-free presentation logic for agent tool calls.\n *\n * Consumers (desktop app, cloud dashboard, future clients) feed the raw\n * `{ toolName, input, result }` payload of a tool call in and get back a\n * structured summary — label, per-item details, diff counts, extracted\n * output text — which they render with the agent-chat primitives\n * (`ToolActivityTrigger`, `ToolActivityDetails`, …) and their own icons.\n *\n * This module is pure data-in/data-out: no React, no DOM, no Node APIs, and\n * no dependency on runtime schemas. Inputs are `unknown` and parsing is\n * defensive; a malformed payload degrades to a generic label, never a throw.\n */\n\nimport { countDiffLines, makeUnifiedDiff } from \"./diff.js\";\nimport {\n\textractOutputMedia,\n\textractOutputText,\n\tisRecord,\n\tnormaliz"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-chat/tool-summary/parsers.ts",
+      "summary": "File: parsers.ts",
+      "content": "import { validateImageMedia } from \"@cline/shared/browser\";\nimport { FRAGMENT_HUNK_HEADER, hunkHeader } from \"./diff.js\";\n\nexport function isRecord(value: unknown): value is Record<string, unknown> {\n\treturn !!value && typeof value === \"object\" && !Array.isArray(value);\n}\n\n/**\n * Tool inputs and results sometimes arrive as JSON strings rather than\n * structured objects (archived transcripts, some transports). Re-parse\n * anything that looks like serialized JSON; leave other values untouched.\n */\nexport function normalizeValue(value: unknown): unknown {\n\tif (typeof value !== \"string\") return value;\n\tconst trimmed = value.trim();\n\tif (\n\t\t(trimmed.startsWith(\"{\") && trimmed.endsWith(\"}\")) ||\n\t\t(trimmed.startsWith(\"[\") && trimmed.endsWith(\"]\"))\n\t) {\n\t\ttry {\n\t\t\treturn JSON.parse(trimmed) as unk"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-chat/tool-summary/paths.ts",
+      "summary": "File: paths.ts",
+      "content": "const EXT_TO_LANGUAGE: Record<string, string> = {\n\t\".ts\": \"typescript\",\n\t\".tsx\": \"tsx\",\n\t\".js\": \"javascript\",\n\t\".jsx\": \"jsx\",\n\t\".py\": \"python\",\n\t\".rb\": \"ruby\",\n\t\".rs\": \"rust\",\n\t\".go\": \"go\",\n\t\".java\": \"java\",\n\t\".kt\": \"kotlin\",\n\t\".swift\": \"swift\",\n\t\".c\": \"c\",\n\t\".cpp\": \"cpp\",\n\t\".h\": \"c\",\n\t\".hpp\": \"cpp\",\n\t\".cs\": \"csharp\",\n\t\".css\": \"css\",\n\t\".scss\": \"scss\",\n\t\".html\": \"html\",\n\t\".vue\": \"vue\",\n\t\".svelte\": \"svelte\",\n\t\".json\": \"json\",\n\t\".yaml\": \"yaml\",\n\t\".yml\": \"yaml\",\n\t\".toml\": \"toml\",\n\t\".md\": \"markdown\",\n\t\".sql\": \"sql\",\n\t\".sh\": \"bash\",\n\t\".bash\": \"bash\",\n\t\".zsh\": \"bash\",\n\t\".fish\": \"fish\",\n\t\".lua\": \"lua\",\n\t\".php\": \"php\",\n\t\".r\": \"r\",\n\t\".ex\": \"elixir\",\n\t\".exs\": \"elixir\",\n\t\".erl\": \"erlang\",\n\t\".zig\": \"zig\",\n\t\".dockerfile\": \"dockerfile\",\n\t\".xml\": \"xml\",\n\t\".graphql\": \"graphql\",\n\t\".proto\": \"protobuf\",\n};\n\nf"
+    },
+    {
+      "path": "cline/sdk/packages/ui/components/agent-chat/tool-summary/team.ts",
+      "summary": "File: team.ts",
+      "content": "import { isRecord, normalizeValue } from \"./parsers.js\";\n\nexport type ToolAggregate = {\n\tkey: string;\n\tcount: number;\n\tnoun: string;\n\tpluralNoun?: string;\n\tcompletedVerb: string;\n\tprogressVerb: string;\n};\n\nexport type TeamSummaryResult = {\n\tlabel: string;\n\tdetails: string[];\n\taggregate?: ToolAggregate;\n};\n\nexport function pluralize(\n\tcount: number,\n\tsingular: string,\n\tplural = `${singular}s`,\n): string {\n\treturn `${count} ${count === 1 ? singular : plural}`;\n}\n\nfunction asRecord(value: unknown): Record<string, unknown> | null {\n\treturn isRecord(value) ? value : null;\n}\n\nfunction resultRecords(result: unknown): Record<string, unknown>[] {\n\tconst normalized = normalizeValue(result);\n\tif (Array.isArray(normalized)) {\n\t\treturn normalized\n\t\t\t.map(asRecord)\n\t\t\t.filter((item): item is Record<stri"
+    },
+    {
+      "path": "cline/sdk/packages/ui/.storybook/main.ts",
+      "summary": "File: main.ts",
+      "content": "import type { StorybookConfig } from \"@storybook/react-vite\";\nimport tailwindcss from \"@tailwindcss/vite\";\n\nconst config: StorybookConfig = {\n\tstories: [\"../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)\"],\n\taddons: [\"@storybook/addon-a11y\", \"@storybook/addon-docs\"],\n\tcore: {\n\t\tallowedHosts: [\"localhost\", \"127.0.0.1\"],\n\t},\n\tframework: \"@storybook/react-vite\",\n\tasync viteFinal(viteConfig) {\n\t\tviteConfig.plugins = [...(viteConfig.plugins ?? []), tailwindcss()];\n\t\treturn viteConfig;\n\t},\n\ttypescript: {\n\t\tcheck: true,\n\t\treactDocgen: \"react-docgen-typescript\",\n\t},\n};\n\nexport default config;\n"
+    },
+    {
+      "path": "cline/sdk/packages/ui/.storybook/preview.tsx",
+      "summary": "File: preview.tsx",
+      "content": "import type { Decorator, Preview } from \"@storybook/react-vite\";\nimport \"./preview.css\";\n\nconst withClineTheme: Decorator = (Story, context) => {\n\tconst isDark = context.globals.theme === \"dark\";\n\tdocument.documentElement.classList.toggle(\"dark\", isDark);\n\treturn (\n\t\t<div className=\"cline-storybook-surface\" data-view-mode={context.viewMode}>\n\t\t\t<Story />\n\t\t</div>\n\t);\n};\n\nconst preview: Preview = {\n\tdecorators: [withClineTheme],\n\tparameters: {\n\t\tbackgrounds: { disable: true },\n\t\tcontrols: {\n\t\t\tmatchers: {\n\t\t\t\tcolor: /(background|color)$/i,\n\t\t\t\tdate: /Date$/i,\n\t\t\t},\n\t\t},\n\t\tlayout: \"fullscreen\",\n\t\tviewport: {\n\t\t\tviewports: {\n\t\t\t\tchatPanel: {\n\t\t\t\t\tname: \"Chat panel\",\n\t\t\t\t\tstyles: { height: \"800px\", width: \"700px\" },\n\t\t\t\t\ttype: \"desktop\",\n\t\t\t\t},\n\t\t\t\tmobile: {\n\t\t\t\t\tname: \"Mobile\",\n\t\t\t\t\tstyles: {"
+    },
+    {
+      "path": "cline/sdk/packages/shared/package.json",
+      "summary": "File: package.json",
+      "content": "{\n\t\"name\": \"@cline/shared\",\n\t\"version\": \"0.0.83\",\n\t\"description\": \"Shared utilities, types, and schemas for Cline packages\",\n\t\"repository\": {\n\t\t\"type\": \"git\",\n\t\t\"url\": \"https://github.com/cline/cline\",\n\t\t\"directory\": \"sdk/packages/shared\"\n\t},\n\t\"type\": \"module\",\n\t\"main\": \"dist/index.js\",\n\t\"types\": \"dist/index.d.ts\",\n\t\"exports\": {\n\t\t\".\": {\n\t\t\t\"browser\": \"./dist/index.browser.js\",\n\t\t\t\"types\": \"./dist/index.d.ts\",\n\t\t\t\"import\": \"./dist/index.js\",\n\t\t\t\"default\": \"./dist/index.js\"\n\t\t},\n\t\t\"./browser\": {\n\t\t\t\"types\": \"./dist/index.browser.d.ts\",\n\t\t\t\"import\": \"./dist/index.browser.js\"\n\t\t},\n\t\t\"./types\": {\n\t\t\t\"types\": \"./dist/types/index.d.ts\",\n\t\t\t\"import\": \"./dist/types/index.js\"\n\t\t},\n\t\t\"./storage\": {\n\t\t\t\"types\": \"./dist/storage/index.d.ts\",\n\t\t\t\"import\": \"./dist/storage/index.js\"\n\t\t},\n\t\t\"./db\": {\n\t\t\t\"t"
+    },
+    {
+      "path": "cline/sdk/packages/shared/README.md",
+      "summary": "File: README.md",
+      "content": "# [experimental] @cline/shared\n\nPackage-level docs are centralized:\n\n- Overview: [`packages/README.md`](../README.md)\n- Architecture and interactions: [`ARCHITECTURE.md`](./ARCHITECTURE.md)\n\n`@cline/shared` owns shared cross-package primitives (session common types/utilities).\n\nNode-only filesystem path resolvers live under the storage subpath export:\n\n- `@cline/shared/storage`\n- examples: `resolveClineDataDir`, `resolveDbDataDir`, `resolveSessionDataDir`, `resolveTeamDataDir`\n\nIt also exports cross-client logging contracts, including `BasicLogger`, so\nruntime, SDK, and host applications can share a single logger type.\n\nSession config primitives are also centralized here so hosts/runtimes can\ncompose one base shape instead of redefining similar fields repeatedly:\n\n- `AgentMode`\n- `SessionP"
+    },
+    {
+      "path": "cline/sdk/packages/shared/tsconfig.build.json",
+      "summary": "File: tsconfig.build.json",
+      "content": "{\n\t\"extends\": \"./tsconfig.json\",\n\t\"compilerOptions\": {\n\t\t\"declarationMap\": false,\n\t\t\"sourceMap\": false\n\t}\n}\n"
+    },
+    {
+      "path": "cline/sdk/packages/shared/tsconfig.json",
+      "summary": "File: tsconfig.json",
+      "content": "{\n\t\"extends\": \"../tsconfig.base.json\",\n\t\"compilerOptions\": {\n\t\t\"outDir\": \"./dist\",\n\t\t\"rootDir\": \"./src\"\n\t},\n\t\"include\": [\"src/**/*\"],\n\t\"exclude\": [\"node_modules\", \"dist\", \"**/*.test.ts\", \"**/__tests__/**\"]\n}\n"
+    },
+    {
+      "path": "cline/sdk/packages/shared/vitest.config.ts",
+      "summary": "File: vitest.config.ts",
+      "content": "import { defineConfig } from \"vitest/config\";\n\nexport default defineConfig({\n\ttest: {\n\t\tenvironment: \"node\",\n\t\tinclude: [\"src/**/*.test.ts\"],\n\t\t// SQLite-backed tests routinely exceed vitest's 5s default on the\n\t\t// 2-core windows-latest runner. A hang guard, not a timing assertion.\n\t\ttestTimeout: 15_000,\n\t\thookTimeout: 15_000,\n\t\texclude: [\"src/**/*.e2e.test.ts\"],\n\t},\n});\n"
+    },
+    {
+      "path": "cline/sdk/packages/shared/src/agent.ts",
+      "summary": "File: agent.ts",
+      "content": "/**\n * AgentRuntime contract types (ported from clinee `@cline/shared`).\n *\n * These are the canonical type definitions consumed by `AgentRuntime`.\n *\n */\n\nimport type { GeneratedMedia } from \"./llms/media\";\nimport type { ModelInfo } from \"./llms/model-info\";\nimport type {\n\tToolApprovalRequest,\n\tToolApprovalResult,\n\tToolPolicy,\n} from \"./llms/tools\";\nimport type { BasicLogger } from \"./logging/logger\";\nimport type { ITelemetryService } from \"./services/telemetry\";\n\n// =============================================================================\n// Lightweight telemetry surface used by AgentRuntime\n// =============================================================================\n\n// =============================================================================\n// Message parts\n// ============"
+    },
+    {
+      "path": "cline/sdk/packages/shared/src/dispose.ts",
+      "summary": "File: dispose.ts",
+      "content": "export type Disposable =\n\t| (() => void | Promise<void>)\n\t| { dispose: () => void | Promise<void> };\n\nconst registry: Disposable[] = [];\n\n/**\n * Register a disposable to be cleaned up when `disposeAll()` is called.\n * Accepts either a function or an object with a `dispose` method.\n */\nexport function registerDisposable(disposable: Disposable): void {\n\tregistry.push(disposable);\n}\n\n/**\n * Dispose all registered disposables in registration order.\n * Errors from individual disposables are suppressed so all run.\n */\nexport async function disposeAll(): Promise<void> {\n\tconst items = registry.splice(0);\n\tawait Promise.all(\n\t\titems.map((d) => {\n\t\t\ttry {\n\t\t\t\tconst result = typeof d === \"function\" ? d() : d.dispose();\n\t\t\t\treturn result ?? Promise.resolve();\n\t\t\t} catch {\n\t\t\t\treturn Promise.resolve()"
+    }
+  ],
+  "activeContext": {
+    "activeFile": "c:\\Users\\vamsi\\OneDrive\\Desktop\\cline_fake\\cline\\docs\\mcp\\mcp-overview.mdx",
+    "openFiles": [
+      "c:\\Users\\vamsi\\OneDrive\\Desktop\\cline_fake\\cline\\docs\\mcp\\mcp-overview.mdx"
+    ],
+    "diagnostics": []
+  },
+  "session": {
+    "summary": "Context snapshot created from workspace and git state.",
+    "decisions": [],
+    "pendingTasks": []
+  }
+}

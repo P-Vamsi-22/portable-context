@@ -1,0 +1,86 @@
+{
+  "name": "portable-context-vscode",
+  "displayName": "Portable Context",
+  "description": "Collects repo, document, git, and session context for portable AI context management.",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.94.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning",
+    "AI"
+  ],
+  "main": "./dist/extension.js",
+  "dependencies": {
+    "context-core": "file:../../packages/context-core"
+  },
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:portable-context.refreshContext",
+    "onCommand:portable-context.showPanel"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "portable-context",
+          "title": "Portable Context",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "portable-context": [
+        {
+          "type": "webview",
+          "id": "portable-context.sidebar",
+          "name": "Context"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "portable-context.refreshContext",
+        "title": "Portable Context: Refresh Context"
+      },
+      {
+        "command": "portable-context.showPanel",
+        "title": "Portable Context: Show Panel"
+      },
+      {
+        "command": "portable-context.openProject",
+        "title": "Portable Context: Open Project"
+      },
+      {
+        "command": "portable-context.newProject",
+        "title": "Portable Context: New Project"
+      }
+    ],
+    "configuration": {
+      "title": "Portable Context",
+      "properties": {
+        "portableContext.autoIngestOnWorkspaceOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically ingest the workspace when it opens."
+        },
+        "portableContext.autoIngestOnFileChange": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically ingest after workspace files change."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p tsconfig.json",
+    "build": "npm run compile",
+    "dev": "tsc -p tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/vscode": "^1.94.0",
+    "typescript": "^5.6.3"
+  }
+}

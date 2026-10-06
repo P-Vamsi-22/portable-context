@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Portable Context icon">
+  <rect width="128" height="128" rx="22" fill="#0F172A"/>
+  <rect x="18" y="24" width="92" height="18" rx="9" fill="#38BDF8"/>
+  <rect x="18" y="55" width="70" height="18" rx="9" fill="#34D399"/>
+  <rect x="18" y="86" width="82" height="18" rx="9" fill="#F59E0B"/>
+  <circle cx="105" cy="34" r="11" fill="#E2E8F0"/>
+</svg>

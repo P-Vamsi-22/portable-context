@@ -1,0 +1,6 @@
+node_modules/
+apps/vscode/dist/
+packages/context-core/dist/
+*.vsix
+.vscode-test/
+.DS_Store

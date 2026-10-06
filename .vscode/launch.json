@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Portable Context Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "stopOnEntry": false,
+      "timeout": 30000,
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/apps/vscode"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/apps/vscode/dist/**/*.js",
+        "${workspaceFolder}/packages/context-core/dist/**/*.js"
+      ],
+      "preLaunchTask": "Build Portable Context"
+    }
+  ]
+}
